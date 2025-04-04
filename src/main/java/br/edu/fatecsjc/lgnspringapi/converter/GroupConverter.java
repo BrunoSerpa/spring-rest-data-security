@@ -6,15 +6,17 @@ import org.modelmapper.ModelMapper;
 import org.modelmapper.Provider;
 import org.modelmapper.TypeMap;
 import org.modelmapper.TypeToken;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 @Component
 public class GroupConverter implements Converter<Group, GroupDTO> {
-    @Autowired
-    private ModelMapper modelMapper;
+    private final ModelMapper modelMapper;
+
+    public GroupConverter(ModelMapper modelMapper) {
+        this.modelMapper = modelMapper;
+    }
 
     private TypeMap<GroupDTO, Group> propertyMapperDto;
 
