@@ -43,16 +43,18 @@ public class SecurityConfig {
     private final AuthenticationProvider authenticationProvider;
     private final LogoutHandler logoutHandler;
 
+    private static final String GROUP_PATH = "/group/**";
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(req ->
                         req.requestMatchers(WHITE_LIST_URL)
                                 .permitAll()
-                                .requestMatchers("/group/**").hasAnyRole(ADMIN.name())
+                                .requestMatchers(GROUP_PATH).hasAnyRole(ADMIN.name())
                                 .requestMatchers("/user/**").hasAnyRole(ADMIN.name())
-                                .requestMatchers(POST, "/group/**").hasAnyAuthority(ADMIN_CREATE.name())
-                                .requestMatchers(PUT, "/group/**").hasAnyAuthority(ADMIN_UPDATE.name())
+                                .requestMatchers(POST, GROUP_PATH).hasAnyAuthority(ADMIN_CREATE.name())
+                                .requestMatchers(PUT, GROUP_PATH).hasAnyAuthority(ADMIN_UPDATE.name())
                                 .anyRequest()
                                 .authenticated()
                 )
