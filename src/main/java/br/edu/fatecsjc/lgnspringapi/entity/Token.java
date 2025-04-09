@@ -21,7 +21,7 @@ public class Token {
     private Long id;
 
     @Column(unique = true)
-    private String token;
+    private String tokenValue;
 
     @Builder.Default
     @Enumerated(EnumType.STRING)
