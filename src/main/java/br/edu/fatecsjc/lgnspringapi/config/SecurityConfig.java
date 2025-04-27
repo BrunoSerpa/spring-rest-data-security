@@ -20,54 +20,50 @@ import static org.springframework.http.HttpMethod.POST;
 import static org.springframework.http.HttpMethod.PUT;
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 
-
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
 @EnableMethodSecurity
 public class SecurityConfig {
-    private static final String[] WHITE_LIST_URL = {
-            "/auth/**",
-            "/v2/api-docs",
-            "/v3/api-docs",
-            "/v3/api-docs/**",
-            "/swagger-resources",
-            "/swagger-resources/**",
-            "/configuration/ui",
-            "/configuration/security",
-            "/swagger-ui/**",
-            "/swagger-ui.html",
-            "/"
-    };
-    private final JwtAuthenticationFilter jwtAuthFilter;
-    private final AuthenticationProvider authenticationProvider;
-    private final LogoutHandler logoutHandler;
+        private static final String[] WHITE_LIST_URL = {
+                        "/auth/**",
+                        "/v2/api-docs",
+                        "/v3/api-docs",
+                        "/v3/api-docs/**",
+                        "/swagger-resources",
+                        "/swagger-resources/**",
+                        "/configuration/ui",
+                        "/configuration/security",
+                        "/swagger-ui/**",
+                        "/swagger-ui.html",
+                        "/"
+        };
+        private final JwtAuthenticationFilter jwtAuthFilter;
+        private final AuthenticationProvider authenticationProvider;
+        private final LogoutHandler logoutHandler;
 
-    private static final String GROUP_PATH = "/group/**";
+        private static final String GROUP_PATH = "/group/**";
 
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(req ->
-                        req.requestMatchers(WHITE_LIST_URL)
-                                .permitAll()
-                                .requestMatchers(GROUP_PATH).hasAnyRole(ADMIN.name())
-                                .requestMatchers("/user/**").hasAnyRole(ADMIN.name())
-                                .requestMatchers(POST, GROUP_PATH).hasAnyAuthority(ADMIN_CREATE.name())
-                                .requestMatchers(PUT, GROUP_PATH).hasAnyAuthority(ADMIN_UPDATE.name())
-                                .anyRequest()
-                                .authenticated()
-                )
-                .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))
-                .authenticationProvider(authenticationProvider)
-                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
-                .logout(logout ->
-                        logout.logoutUrl("/auth/logout")
-                                .addLogoutHandler(logoutHandler)
-                                .logoutSuccessHandler((request, response, authentication)
-                                        -> SecurityContextHolder.clearContext())
-                );
+        @Bean
+        public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+                http.csrf(AbstractHttpConfigurer::disable)
+                                .authorizeHttpRequests(req -> req.requestMatchers(WHITE_LIST_URL)
+                                                .permitAll()
+                                                .requestMatchers(GROUP_PATH).hasAnyRole(ADMIN.name())
+                                                .requestMatchers("/user/**").hasAnyRole(ADMIN.name())
+                                                .requestMatchers(POST, GROUP_PATH).hasAnyAuthority(ADMIN_CREATE.name())
+                                                .requestMatchers(PUT, GROUP_PATH).hasAnyAuthority(ADMIN_UPDATE.name())
+                                                .anyRequest()
+                                                .authenticated())
+                                .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))
+                                .authenticationProvider(authenticationProvider)
+                                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
+                                .logout(logout -> logout.logoutUrl("/auth/logout")
+                                                .addLogoutHandler(logoutHandler)
+                                                .logoutSuccessHandler((request, response,
+                                                                authentication) -> SecurityContextHolder
+                                                                                .clearContext()));
 
-        return http.build();
-    }
+                return http.build();
+        }
 }

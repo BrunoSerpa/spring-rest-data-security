@@ -1,8 +1,9 @@
 package br.edu.fatecsjc.lgnspringapi.repository;
 
-import br.edu.fatecsjc.lgnspringapi.entity.GroupEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+
+import br.edu.fatecsjc.lgnspringapi.entity.GroupEntity;
 
 @Repository
 public interface GroupRepository extends JpaRepository<GroupEntity, Long> {

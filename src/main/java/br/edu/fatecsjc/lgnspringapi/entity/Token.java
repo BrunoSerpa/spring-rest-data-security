@@ -1,5 +1,7 @@
 package br.edu.fatecsjc.lgnspringapi.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import br.edu.fatecsjc.lgnspringapi.enums.TokenType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -14,13 +16,12 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "tokens")
 public class Token {
-
     @Id
     @SequenceGenerator(initialValue = 1, allocationSize = 1, name = "tokensidgen", sequenceName = "tokens_seq")
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "tokensidgen")
     private Long id;
 
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String tokenValue;
 
     @Builder.Default
@@ -33,5 +34,6 @@ public class Token {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
+    @JsonBackReference
     private User user;
 }

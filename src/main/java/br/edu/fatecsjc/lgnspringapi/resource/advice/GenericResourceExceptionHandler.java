@@ -14,13 +14,12 @@ import java.time.Instant;
 @ControllerAdvice
 public class GenericResourceExceptionHandler extends ResponseEntityExceptionHandler {
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
-    @ExceptionHandler({Exception.class, Error.class})
+    @ExceptionHandler({ Exception.class, Error.class })
     public ResponseEntity<ApiErrorDTO> catchExceptionReturningBadRequest(HttpServletRequest req, Exception exception) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
                 ApiErrorDTO.builder()
-                    .message("An unknown error occurred in API processing")
-                    .timestamp(Instant.now())
-                    .build()
-        );
+                        .message("An unknown error occurred in API processing")
+                        .timestamp(Instant.now())
+                        .build());
     }
 }

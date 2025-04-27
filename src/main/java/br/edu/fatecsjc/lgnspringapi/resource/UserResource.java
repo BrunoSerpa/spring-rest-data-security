@@ -21,22 +21,17 @@ import java.security.Principal;
 @Tag(name = "System User")
 @SecurityRequirement(name = "bearerAuth")
 public class UserResource {
+        private final UserService service;
 
-    private final UserService service;
-
-    @PatchMapping
-    @Operation(
-            description = "Change user password",
-            responses = {
-                    @ApiResponse(description = "Success", responseCode = "200"),
-                    @ApiResponse(description = "Unknown error", responseCode = "400"),
-            }
-    )
-    public ResponseEntity<?> changePassword(
-            @RequestBody ChangePasswordRequestDTO request,
-            Principal connectedUser
-    ) {
-        service.changePassword(request, connectedUser);
-        return ResponseEntity.ok().build();
-    }
+        @PatchMapping
+        @Operation(description = "Change user password", responses = {
+                        @ApiResponse(description = "Success", responseCode = "200"),
+                        @ApiResponse(description = "Unknown error", responseCode = "400"),
+        })
+        public ResponseEntity<Void> changePassword(
+                        @RequestBody ChangePasswordRequestDTO request,
+                        Principal connectedUser) {
+                service.changePassword(request, connectedUser);
+                return ResponseEntity.ok().build();
+        }
 }
