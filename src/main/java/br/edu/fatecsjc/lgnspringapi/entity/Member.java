@@ -2,6 +2,7 @@ package br.edu.fatecsjc.lgnspringapi.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Getter
 @Setter
@@ -17,8 +18,9 @@ public class Member {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "membersidgen")
     private Long id;
     private String name;
-    private Integer age;
-    @ManyToOne
-    @JoinColumn(name="group_id", nullable=false)
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "group_id")
+    @JsonBackReference
     private Group group;
 }
