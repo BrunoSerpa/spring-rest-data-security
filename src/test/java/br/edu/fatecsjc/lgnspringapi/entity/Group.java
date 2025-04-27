@@ -16,7 +16,7 @@ class GroupTest {
             .age(25)
             .build();
 
-        Group group = Group.builder()
+        GroupEntity group = GroupEntity.builder()
             .id(1L)
             .name("Group A")
             .members(List.of(member))

@@ -1,6 +1,6 @@
 package br.edu.fatecsjc.lgnspringapi.repository;
 
-import br.edu.fatecsjc.lgnspringapi.entity.Group;
+import br.edu.fatecsjc.lgnspringapi.entity.GroupEntity;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,12 +21,12 @@ class GroupRepositoryTest {
     @Test
     @DisplayName("Should save and retrieve groups")
     void testSaveAndRetrieveGroups() {
-        Group group = Group.builder()
+        GroupEntity group = GroupEntity.builder()
             .name("Group A")
             .build();
         groupRepository.save(group);
 
-        List<Group> groups = groupRepository.findAll();
+        List<GroupEntity> groups = groupRepository.findAll();
 
         assertEquals(1, groups.size());
         assertEquals("Group A", groups.get(0).getName());

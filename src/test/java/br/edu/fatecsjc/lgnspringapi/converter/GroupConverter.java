@@ -1,7 +1,7 @@
 package br.edu.fatecsjc.lgnspringapi.converter;
 
 import br.edu.fatecsjc.lgnspringapi.dto.GroupDTO;
-import br.edu.fatecsjc.lgnspringapi.entity.Group;
+import br.edu.fatecsjc.lgnspringapi.entity.GroupEntity;
 import br.edu.fatecsjc.lgnspringapi.entity.Member;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -25,7 +25,7 @@ class GroupConverterTest {
     @DisplayName("Should convert GroupDTO to Group entity")
     void testConvertToEntity() {
         GroupDTO groupDTO = new GroupDTO(1L, "Group A", List.of());
-        Group group = groupConverter.convertToEntity(groupDTO);
+        GroupEntity group = groupConverter.convertToEntity(groupDTO);
 
         assertNotNull(group);
         assertEquals("Group A", group.getName());
@@ -34,7 +34,7 @@ class GroupConverterTest {
     @Test
     @DisplayName("Should convert Group entity to GroupDTO")
     void testConvertToDto() {
-        Group group = Group.builder()
+        GroupEntity group = GroupEntity.builder()
                 .id(1L)
                 .name("Group A")
                 .members(List.of(Member.builder().id(1L).name("Alice").build()))
@@ -52,7 +52,7 @@ class GroupConverterTest {
     @DisplayName("Should convert list of GroupDTO to list of Group entities")
     void testConvertToEntityList() {
         GroupDTO groupDTO = new GroupDTO(1L, "Group A", List.of());
-        List<Group> groups = groupConverter.convertToEntity(List.of(groupDTO));
+        List<GroupEntity> groups = groupConverter.convertToEntity(List.of(groupDTO));
 
         assertNotNull(groups);
         assertEquals(1, groups.size());
@@ -62,7 +62,7 @@ class GroupConverterTest {
     @Test
     @DisplayName("Should convert list of Group entities to list of GroupDTOs")
     void testConvertToDtoList() {
-        Group group = Group.builder()
+        GroupEntity group = GroupEntity.builder()
                 .id(1L)
                 .name("Group A")
                 .members(List.of(Member.builder().id(1L).name("Alice").build()))

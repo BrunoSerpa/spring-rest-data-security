@@ -1,7 +1,7 @@
 package br.edu.fatecsjc.lgnspringapi.converter;
 
 import br.edu.fatecsjc.lgnspringapi.dto.GroupDTO;
-import br.edu.fatecsjc.lgnspringapi.entity.Group;
+import br.edu.fatecsjc.lgnspringapi.entity.GroupEntity;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.Provider;
 import org.modelmapper.TypeMap;
@@ -11,24 +11,24 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-public class GroupConverter implements Converter<Group, GroupDTO> {
+public class GroupConverter implements Converter<GroupEntity, GroupDTO> {
     private final ModelMapper modelMapper;
 
     public GroupConverter(ModelMapper modelMapper) {
         this.modelMapper = modelMapper;
     }
 
-    private TypeMap<GroupDTO, Group> propertyMapperDto;
+    private TypeMap<GroupDTO, GroupEntity> propertyMapperDto;
 
     @Override
-    public Group convertToEntity(GroupDTO dto) {
+    public GroupEntity convertToEntity(GroupDTO dto) {
         if(propertyMapperDto == null) {
-            propertyMapperDto = modelMapper.createTypeMap(GroupDTO.class, Group.class);
-            propertyMapperDto.addMappings(mapper -> mapper.skip(Group::setId));
+            propertyMapperDto = modelMapper.createTypeMap(GroupDTO.class, GroupEntity.class);
+            propertyMapperDto.addMappings(mapper -> mapper.skip(GroupEntity::setId));
         }
 
-        Group entity = modelMapper.map(dto, Group.class);
-        Provider<Group> groupProvider = p -> new Group();
+        GroupEntity entity = modelMapper.map(dto, GroupEntity.class);
+        Provider<GroupEntity> groupProvider = p -> new GroupEntity();
         propertyMapperDto.setProvider(groupProvider);
 
         entity.getMembers().forEach(m -> m.setGroup(entity));
@@ -36,34 +36,34 @@ public class GroupConverter implements Converter<Group, GroupDTO> {
     }
 
     @Override
-    public Group convertToEntity(GroupDTO dto, Group entity) {
+    public GroupEntity convertToEntity(GroupDTO dto, GroupEntity entity) {
         if(propertyMapperDto == null) {
-            propertyMapperDto = modelMapper.createTypeMap(GroupDTO.class, Group.class);
-            propertyMapperDto.addMappings(mapper -> mapper.skip(Group::setId));
+            propertyMapperDto = modelMapper.createTypeMap(GroupDTO.class, GroupEntity.class);
+            propertyMapperDto.addMappings(mapper -> mapper.skip(GroupEntity::setId));
         }
 
-        Provider<Group> groupProvider = p -> entity;
+        Provider<GroupEntity> groupProvider = p -> entity;
         propertyMapperDto.setProvider(groupProvider);
 
-        Group newEntity = modelMapper.map(dto, Group.class);
+        GroupEntity newEntity = modelMapper.map(dto, GroupEntity.class);
         newEntity.getMembers().forEach(member -> member.setGroup(newEntity));
         return newEntity;
     }
 
     @Override
-    public GroupDTO convertToDto(Group entity) {
+    public GroupDTO convertToDto(GroupEntity entity) {
         return modelMapper.map(entity, GroupDTO.class);
     }
 
     @Override
-    public List<Group> convertToEntity(List<GroupDTO> dtos) {
-        List<Group> groups = modelMapper.map(dtos, new TypeToken<List<Group>>(){}.getType());
+    public List<GroupEntity> convertToEntity(List<GroupDTO> dtos) {
+        List<GroupEntity> groups = modelMapper.map(dtos, new TypeToken<List<GroupEntity>>(){}.getType());
         groups.forEach(group -> group.getMembers().forEach(member -> member.setGroup(group)));
         return groups;
     }
 
     @Override
-    public List<GroupDTO> convertToDto(List<Group> entities) {
+    public List<GroupDTO> convertToDto(List<GroupEntity> entities) {
         return modelMapper.map(entities, new TypeToken<List<GroupDTO>>(){}.getType());
     }
 }

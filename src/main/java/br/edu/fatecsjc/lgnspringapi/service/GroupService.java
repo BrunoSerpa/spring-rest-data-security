@@ -2,7 +2,7 @@ package br.edu.fatecsjc.lgnspringapi.service;
 
 import br.edu.fatecsjc.lgnspringapi.converter.GroupConverter;
 import br.edu.fatecsjc.lgnspringapi.dto.GroupDTO;
-import br.edu.fatecsjc.lgnspringapi.entity.Group;
+import br.edu.fatecsjc.lgnspringapi.entity.GroupEntity;
 import br.edu.fatecsjc.lgnspringapi.repository.GroupRepository;
 import br.edu.fatecsjc.lgnspringapi.repository.MemberRepository;
 import jakarta.transaction.Transactional;
@@ -34,21 +34,21 @@ public class GroupService {
     
     @Transactional
     public GroupDTO save(Long id, GroupDTO dto) {
-        Group entity = groupRepository.findById(id)
+        GroupEntity entity = groupRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Group not found"));
         memberRepository.deleteMembersByGroup(entity);
         entity.getMembers().clear();
     
-        Group groupToSaved = groupConverter.convertToEntity(dto, entity);
+        GroupEntity groupToSaved = groupConverter.convertToEntity(dto, entity);
         groupToSaved.getMembers().forEach(member -> member.setGroup(groupToSaved));
-        Group groupReturned = groupRepository.save(groupToSaved);
+        GroupEntity groupReturned = groupRepository.save(groupToSaved);
         return groupConverter.convertToDto(groupReturned);
     }
     
 
     public GroupDTO save(GroupDTO dto) {
-        Group groupToSaved = groupConverter.convertToEntity(dto);
-        Group groupReturned = groupRepository.save(groupToSaved);
+        GroupEntity groupToSaved = groupConverter.convertToEntity(dto);
+        GroupEntity groupReturned = groupRepository.save(groupToSaved);
         return groupConverter.convertToDto(groupReturned);
     }
 

@@ -23,5 +23,5 @@ public class Member {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "group_id")
     @JsonBackReference
-    private Group group;
+    private GroupEntity group;
 }

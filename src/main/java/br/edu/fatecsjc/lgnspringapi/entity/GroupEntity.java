@@ -14,7 +14,7 @@ import java.util.List;
 @Builder
 @Entity
 @Table(name = "groups")
-public class Group {
+public class GroupEntity {
     @Id
     @SequenceGenerator(initialValue = 1, allocationSize = 1, name = "groupsidgen", sequenceName = "groups_seq")
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "groupsidgen")
