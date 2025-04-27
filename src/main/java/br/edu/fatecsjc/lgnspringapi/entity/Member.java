@@ -18,6 +18,7 @@ public class Member {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "membersidgen")
     private Long id;
     private String name;
+    private Integer age;
     
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "group_id")
