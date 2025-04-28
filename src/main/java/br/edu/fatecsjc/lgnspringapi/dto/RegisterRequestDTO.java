@@ -1,5 +1,6 @@
 package br.edu.fatecsjc.lgnspringapi.dto;
 
+import br.edu.fatecsjc.lgnspringapi.enums.Role;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,5 +19,5 @@ public class RegisterRequestDTO {
 
     private String password;
 
-    private String role;
+    private Role role;
 }

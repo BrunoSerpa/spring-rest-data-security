@@ -21,10 +21,10 @@ CREATE TABLE `tokens` (
     `revoked` bit(1) NOT NULL,
     `id` bigint(20) NOT NULL,
     `user_id` bigint(20) DEFAULT NULL,
-    `token` varchar(255) DEFAULT NULL,
+    `token_value` varchar(255) DEFAULT NULL,
     `token_type` enum('BEARER') DEFAULT NULL,
     PRIMARY KEY (`id`),
-    UNIQUE KEY `uk_token_token` (`token`),
+    UNIQUE KEY `uk_token_token` (`token_value`),
     KEY `fk_token_user_id` (`user_id`),
     CONSTRAINT `fk_token_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
