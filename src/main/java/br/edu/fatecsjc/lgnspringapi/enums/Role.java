@@ -8,17 +8,14 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
-
-import static br.edu.fatecsjc.lgnspringapi.enums.Permission.*;
+import java.util.ArrayList;
 
 @Getter
 @RequiredArgsConstructor
 public enum Role {
-
     USER(Collections.emptySet()),
     ADMIN(
-            Set.of(ADMIN_CREATE, ADMIN_UPDATE)
-    );
+            Set.of(Permission.ADMIN_CREATE, Permission.ADMIN_UPDATE));
 
     private final Set<Permission> permissions;
 
@@ -27,6 +24,12 @@ public enum Role {
                 .stream()
                 .map(permission -> new SimpleGrantedAuthority(permission.getPermissionValue()))
                 .collect(Collectors.toList());
+        authorities.add(new SimpleGrantedAuthority("ROLE_" + this.name()));
+        return authorities;
+    }
+
+    public List<SimpleGrantedAuthority> getRoleAuthorities() {
+        List<SimpleGrantedAuthority> authorities = new ArrayList<>(getAuthorities());
         authorities.add(new SimpleGrantedAuthority("ROLE_" + this.name()));
         return authorities;
     }

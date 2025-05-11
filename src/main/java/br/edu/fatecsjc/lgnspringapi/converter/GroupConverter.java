@@ -22,22 +22,18 @@ public class GroupConverter implements Converter<GroupEntity, GroupDTO> {
 
     @Override
     public GroupEntity convertToEntity(GroupDTO dto) {
-        if(propertyMapperDto == null) {
+        if (propertyMapperDto == null) {
             propertyMapperDto = modelMapper.createTypeMap(GroupDTO.class, GroupEntity.class);
             propertyMapperDto.addMappings(mapper -> mapper.skip(GroupEntity::setId));
         }
 
         GroupEntity entity = modelMapper.map(dto, GroupEntity.class);
-        Provider<GroupEntity> groupProvider = p -> new GroupEntity();
-        propertyMapperDto.setProvider(groupProvider);
-
-        entity.getMembers().forEach(m -> m.setGroup(entity));
         return entity;
     }
 
     @Override
     public GroupEntity convertToEntity(GroupDTO dto, GroupEntity entity) {
-        if(propertyMapperDto == null) {
+        if (propertyMapperDto == null) {
             propertyMapperDto = modelMapper.createTypeMap(GroupDTO.class, GroupEntity.class);
             propertyMapperDto.addMappings(mapper -> mapper.skip(GroupEntity::setId));
         }
@@ -46,7 +42,6 @@ public class GroupConverter implements Converter<GroupEntity, GroupDTO> {
         propertyMapperDto.setProvider(groupProvider);
 
         GroupEntity newEntity = modelMapper.map(dto, GroupEntity.class);
-        newEntity.getMembers().forEach(member -> member.setGroup(newEntity));
         return newEntity;
     }
 
@@ -57,13 +52,14 @@ public class GroupConverter implements Converter<GroupEntity, GroupDTO> {
 
     @Override
     public List<GroupEntity> convertToEntity(List<GroupDTO> dtos) {
-        List<GroupEntity> groups = modelMapper.map(dtos, new TypeToken<List<GroupEntity>>(){}.getType());
-        groups.forEach(group -> group.getMembers().forEach(member -> member.setGroup(group)));
+        List<GroupEntity> groups = modelMapper.map(dtos, new TypeToken<List<GroupEntity>>() {
+        }.getType());
         return groups;
     }
 
     @Override
     public List<GroupDTO> convertToDto(List<GroupEntity> entities) {
-        return modelMapper.map(entities, new TypeToken<List<GroupDTO>>(){}.getType());
+        return modelMapper.map(entities, new TypeToken<List<GroupDTO>>() {
+        }.getType());
     }
 }

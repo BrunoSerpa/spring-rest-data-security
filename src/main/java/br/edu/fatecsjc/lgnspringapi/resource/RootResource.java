@@ -15,6 +15,7 @@ import static java.lang.String.format;
 public class RootResource {
     @Value("${server.port}")
     private String port;
+
     @GetMapping
     public ResponseEntity<String> validateRestResource() {
         String message = new StringBuilder()
