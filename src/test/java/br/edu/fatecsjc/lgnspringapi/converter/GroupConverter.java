@@ -2,7 +2,6 @@ package br.edu.fatecsjc.lgnspringapi.converter;
 
 import br.edu.fatecsjc.lgnspringapi.dto.GroupDTO;
 import br.edu.fatecsjc.lgnspringapi.entity.GroupEntity;
-import br.edu.fatecsjc.lgnspringapi.entity.Member;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -13,7 +12,6 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 class GroupConverterTest {
-
     private GroupConverter groupConverter;
 
     @BeforeEach
@@ -29,6 +27,7 @@ class GroupConverterTest {
 
         assertNotNull(group);
         assertEquals("Group A", group.getName());
+        assertNull(group.getId(), "ID deve ser nulo ao converter DTO para Entity");
     }
 
     @Test
@@ -37,15 +36,14 @@ class GroupConverterTest {
         GroupEntity group = GroupEntity.builder()
                 .id(1L)
                 .name("Group A")
-                .members(List.of(Member.builder().id(1L).name("Alice").build()))
                 .build();
 
         GroupDTO groupDTO = groupConverter.convertToDto(group);
 
         assertNotNull(groupDTO);
+        assertEquals(1L, groupDTO.getId());
         assertEquals("Group A", groupDTO.getName());
-        assertEquals(1, groupDTO.getMembers().size());
-        assertEquals("Alice", groupDTO.getMembers().get(0).getName());
+        assertNull(groupDTO.getMembers(), "Members deve ser nulo na conversão");
     }
 
     @Test
@@ -65,13 +63,31 @@ class GroupConverterTest {
         GroupEntity group = GroupEntity.builder()
                 .id(1L)
                 .name("Group A")
-                .members(List.of(Member.builder().id(1L).name("Alice").build()))
                 .build();
 
         List<GroupDTO> groupDTOs = groupConverter.convertToDto(List.of(group));
 
         assertNotNull(groupDTOs);
         assertEquals(1, groupDTOs.size());
+        assertEquals(1L, groupDTOs.get(0).getId());
         assertEquals("Group A", groupDTOs.get(0).getName());
+        assertNull(groupDTOs.get(0).getMembers(), "Members deve ser nulo na conversão");
+    }
+
+    @Test
+    @DisplayName("Should update existing GroupEntity from GroupDTO without changing ID")
+    void testUpdateExistingEntity() {
+        GroupEntity existingEntity = GroupEntity.builder()
+                .id(10L)
+                .name("Old Name")
+                .build();
+
+        GroupDTO updatedDTO = new GroupDTO(99L, "Updated Name", List.of());
+
+        GroupEntity updatedEntity = groupConverter.convertToEntity(updatedDTO, existingEntity);
+
+        assertNotNull(updatedEntity);
+        assertEquals(10L, updatedEntity.getId(), "ID original deve ser preservado");
+        assertEquals("Updated Name", updatedEntity.getName(), "Nome deve ser atualizado");
     }
 }

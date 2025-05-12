@@ -1,25 +1,30 @@
 package br.edu.fatecsjc.lgnspringapi.dto;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import br.edu.fatecsjc.lgnspringapi.enums.Role;
-import org.junit.jupiter.api.Test;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import static org.junit.jupiter.api.Assertions.*;
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+public class RegisterRequestDTO {
+    @NotBlank(message = "Firstname must not be blank")
+    private String firstname;
 
-class RegisterRequestDTOTest {
+    @NotBlank(message = "Lastname must not be blank")
+    private String lastname;
 
-    @Test
-    void testRegisterRequestDTO() {
-        RegisterRequestDTO dto = RegisterRequestDTO.builder()
-            .firstname("John")
-            .lastname("Doe")
-            .email("john.doe@example.com")
-            .password("password")
-            .role(Role.USER)
-            .build();
-        assertEquals("John", dto.getFirstname());
-        assertEquals("Doe", dto.getLastname());
-        assertEquals("john.doe@example.com", dto.getEmail());
-        assertEquals("password", dto.getPassword());
-        assertEquals(Role.USER, dto.getRole());
-    }
+    @NotBlank(message = "Email must not be blank")
+    @Email(message = "Invalid email format")
+    private String email;
+
+    @NotBlank(message = "Password must not be blank")
+    private String password;
+
+    private Role role;
 }

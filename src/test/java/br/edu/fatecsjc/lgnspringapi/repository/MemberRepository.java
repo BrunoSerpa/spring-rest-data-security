@@ -37,7 +37,7 @@ class MemberRepositoryTest {
             .build();
         memberRepository.save(member);
 
-        memberRepository.deleteMembersByGroup(group);
+        memberRepository.deleteByGroup(group);
         List<Member> members = memberRepository.findAll();
 
         assertTrue(members.isEmpty());
