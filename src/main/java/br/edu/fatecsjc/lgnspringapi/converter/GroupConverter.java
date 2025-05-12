@@ -26,9 +26,7 @@ public class GroupConverter implements Converter<GroupEntity, GroupDTO> {
             propertyMapperDto = modelMapper.createTypeMap(GroupDTO.class, GroupEntity.class);
             propertyMapperDto.addMappings(mapper -> mapper.skip(GroupEntity::setId));
         }
-
-        GroupEntity entity = modelMapper.map(dto, GroupEntity.class);
-        return entity;
+        return modelMapper.map(dto, GroupEntity.class);
     }
 
     @Override
@@ -37,12 +35,9 @@ public class GroupConverter implements Converter<GroupEntity, GroupDTO> {
             propertyMapperDto = modelMapper.createTypeMap(GroupDTO.class, GroupEntity.class);
             propertyMapperDto.addMappings(mapper -> mapper.skip(GroupEntity::setId));
         }
-
         Provider<GroupEntity> groupProvider = p -> entity;
         propertyMapperDto.setProvider(groupProvider);
-
-        GroupEntity newEntity = modelMapper.map(dto, GroupEntity.class);
-        return newEntity;
+        return modelMapper.map(dto, GroupEntity.class);
     }
 
     @Override
@@ -52,9 +47,7 @@ public class GroupConverter implements Converter<GroupEntity, GroupDTO> {
 
     @Override
     public List<GroupEntity> convertToEntity(List<GroupDTO> dtos) {
-        List<GroupEntity> groups = modelMapper.map(dtos, new TypeToken<List<GroupEntity>>() {
-        }.getType());
-        return groups;
+        return modelMapper.map(dtos, new TypeToken<List<GroupEntity>>() {}.getType());
     }
 
     @Override

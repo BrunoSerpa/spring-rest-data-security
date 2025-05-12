@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class AuthenticationRequestDTO {
     @NotNull
-    @Email
+    @Email(message = "Formato de email inválido")
     private String email;
 
     @NotNull

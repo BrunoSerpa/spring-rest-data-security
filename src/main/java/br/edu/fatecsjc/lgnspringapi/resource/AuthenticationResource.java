@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.io.IOException;
 
@@ -35,11 +34,7 @@ public class AuthenticationResource {
                         @ApiResponse(description = "Email already in use", responseCode = "400"),
         })
         public ResponseEntity<AuthenticationResponseDTO> register(@RequestBody @Valid RegisterRequestDTO request) {
-                try {
-                        return ResponseEntity.status(HttpStatus.CREATED).body(service.register(request));
-                } catch (ResponseStatusException e) {
-                        throw e;
-                }
+                return ResponseEntity.status(HttpStatus.CREATED).body(service.register(request));
         }
 
         @PostMapping("/authenticate")
@@ -48,11 +43,7 @@ public class AuthenticationResource {
                         @ApiResponse(description = "Unknown error", responseCode = "400"),
         })
         public ResponseEntity<AuthenticationResponseDTO> authenticate(@RequestBody AuthenticationRequestDTO request) {
-                try {
-                        return ResponseEntity.ok(service.authenticate(request));
-                } catch (ResponseStatusException e) {
-                        throw e;
-                }
+                return ResponseEntity.ok(service.authenticate(request));
         }
 
         @PostMapping("/refresh-token")
