@@ -10,36 +10,35 @@ import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import io.swagger.v3.oas.annotations.servers.Server;
 
 @OpenAPIDefinition(
-        info = @Info(
-                contact = @Contact(
-                        name = "Lucas Nadalete",
-                        email = "lucas.nadalete@fatec.sp.gov.br",
-                        url = "http://fatecsjc-prd.azurewebsites.net/"
-                ),
-                description = "API Documentation for Academic Sample",
-                title = "OpenApi specification - LGN",
-                version = "1.0",
-                license = @License(
-                        name = "MIT License",
-                        url = "https://opensource.org/license/mit/"
-                ),
-                termsOfService = "Terms of service"
+    info = @Info(
+            contact = @Contact(
+                name = "Bruno Serpa Pereira Carvalho",
+                email = "brunospc2005@gmail.com",
+                url = "http://brunoserpa.vercel.app/"
+            ),
+            description = "Projeto Semestral de Qualidade de Software",
+            title = "OpenApi specification - LGN",
+            version = "1.0",
+            license = @License(
+                name = "MIT License",
+                url = "https://opensource.org/license/mit/"
+            ),
+            termsOfService = "Terms of service"
         ),
         servers = {
                 @Server(
                         description = "Local ENV",
                         url = "http://localhost:8000"
-                )
+                ),
         }
 )
 @SecurityScheme(
-        name = "bearerAuth",
-        description = "JWT auth description",
-        scheme = "bearer",
-        type = SecuritySchemeType.HTTP,
-        bearerFormat = "JWT",
-        in = SecuritySchemeIn.HEADER
+    name = "bearerAuth",
+    description = "JWT auth description",
+    scheme = "bearer",
+    type = SecuritySchemeType.HTTP,
+    bearerFormat = "JWT",
+    in = SecuritySchemeIn.HEADER
 )
 public class OpenApiConfig {
 }
-

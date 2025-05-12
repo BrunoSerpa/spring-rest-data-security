@@ -13,5 +13,7 @@ import java.time.Instant;
 @AllArgsConstructor
 public class ApiErrorDTO {
     private String message;
-    private Instant timestamp;
+
+    @Builder.Default
+    private Instant timestamp = Instant.now();
 }
