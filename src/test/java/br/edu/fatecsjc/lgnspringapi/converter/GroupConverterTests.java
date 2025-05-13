@@ -11,7 +11,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class GroupConverterTest {
+class GroupConverterTests {
     private GroupConverter groupConverter;
 
     @BeforeEach
