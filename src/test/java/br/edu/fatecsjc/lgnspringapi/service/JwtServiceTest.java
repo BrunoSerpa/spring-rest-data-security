@@ -1,6 +1,5 @@
 package br.edu.fatecsjc.lgnspringapi.service;
 
-import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
@@ -83,7 +82,9 @@ class JwtServiceTest {
         boolean isValid = jwtService.isTokenValid(token, userDetails);
 
         assertTrue(isValid);
-    }    @Test
+    }
+
+    @Test
     @DisplayName("Should handle expired tokens")
     void isTokenValid_ExpiredToken() {
         // Create a token with minimal expiration time

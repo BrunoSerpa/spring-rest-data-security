@@ -116,8 +116,7 @@ class GroupServiceTest {
     void findById_NotFound() {
         when(groupRepository.findById(1L)).thenReturn(Optional.empty());
 
-        assertThrows(IllegalArgumentException.class, () -> 
-            groupService.findById(1L));
+        assertThrows(IllegalArgumentException.class, () -> groupService.findById(1L));
     }
 
     @Test
@@ -162,7 +161,7 @@ class GroupServiceTest {
     @DisplayName("Should delete group and associated members")
     void delete_Success() {
         when(groupRepository.findById(1L)).thenReturn(Optional.of(groupEntity));
-        
+
         groupService.delete(1L);
 
         verify(memberRepository).deleteByGroup(groupEntity);
@@ -174,8 +173,7 @@ class GroupServiceTest {
     void delete_NonExistentGroup() {
         when(groupRepository.findById(1L)).thenReturn(Optional.empty());
 
-        assertThrows(IllegalArgumentException.class, () -> 
-            groupService.delete(1L));
+        assertThrows(IllegalArgumentException.class, () -> groupService.delete(1L));
 
         verify(memberRepository, never()).deleteByGroup(any());
         verify(groupRepository, never()).deleteById(any());

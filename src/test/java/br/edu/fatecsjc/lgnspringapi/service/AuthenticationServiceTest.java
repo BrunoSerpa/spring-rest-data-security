@@ -135,7 +135,9 @@ class AuthenticationServiceTest {
         verify(authenticationManager).authenticate(
                 any(UsernamePasswordAuthenticationToken.class));
         verify(tokenRepository).save(any(Token.class));
-    }    @Test
+    }
+
+    @Test
     @DisplayName("Should refresh token successfully")
     void refreshToken_Success() throws IOException {
         String bearerToken = "Bearer " + refreshToken;
