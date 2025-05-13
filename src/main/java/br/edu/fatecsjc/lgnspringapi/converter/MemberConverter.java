@@ -28,7 +28,6 @@ public class MemberConverter implements Converter<Member, MemberDTO> {
 
         if (propertyMapperEntity == null) {
             propertyMapperEntity = modelMapper.createTypeMap(Member.class, MemberDTO.class);
-            propertyMapperEntity.addMappings(mapper -> mapper.skip(MemberDTO::setId));
         }
     }
 
