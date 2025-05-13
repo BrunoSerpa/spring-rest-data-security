@@ -13,8 +13,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @ActiveProfiles("test")
-class ModelMapperConfigTest {
 
+public class ModalMapperConfigTests {
     @Autowired
     private ModelMapper modelMapper;
 
@@ -22,16 +22,16 @@ class ModelMapperConfigTest {
     @DisplayName("Should configure ModelMapper with correct settings")
     void testModelMapperConfiguration() {
         assertNotNull(modelMapper, "ModelMapper should be injected");
-        
+
         var config = modelMapper.getConfiguration();
-        
-        assertTrue(config.isFieldMatchingEnabled(), 
-            "Field matching should be enabled");
-        
-        assertEquals(AccessLevel.PRIVATE, config.getFieldAccessLevel(), 
-            "Field access level should be PRIVATE");
-        
+
+        assertTrue(config.isFieldMatchingEnabled(),
+                "Field matching should be enabled");
+
+        assertEquals(AccessLevel.PRIVATE, config.getFieldAccessLevel(),
+                "Field access level should be PRIVATE");
+
         assertEquals(NamingConventions.JAVABEANS_MUTATOR, config.getSourceNamingConvention(),
-            "Source naming convention should be JAVABEANS_MUTATOR");
+                "Source naming convention should be JAVABEANS_MUTATOR");
     }
 }
