@@ -16,7 +16,7 @@ import org.springframework.test.context.ActiveProfiles;
 @SpringBootTest
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
-class SecurityConfigTest {
+public class SecurityConfigTests {
 
     @Autowired
     private SecurityConfig securityConfig;
