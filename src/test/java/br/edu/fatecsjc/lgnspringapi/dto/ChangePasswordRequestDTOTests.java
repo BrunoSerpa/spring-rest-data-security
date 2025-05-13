@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class ChangePasswordRequestDTOTest {
+class ChangePasswordRequestDTOTests {
     @Test
     void testChangePasswordRequestDTO() {
         ChangePasswordRequestDTO dto = ChangePasswordRequestDTO.builder()
