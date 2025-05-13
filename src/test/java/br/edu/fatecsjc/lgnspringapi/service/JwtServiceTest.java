@@ -60,7 +60,7 @@ class JwtServiceTest {
         String token = jwtService.generateToken(userDetails);
 
         assertNotNull(token);
-        assertTrue(token.length() > 0);
+        assertFalse(token.isEmpty());
         assertTrue(jwtService.isTokenValid(token, userDetails));
     }
 
@@ -70,7 +70,7 @@ class JwtServiceTest {
         String token = jwtService.generateRefreshToken(userDetails);
 
         assertNotNull(token);
-        assertTrue(token.length() > 0);
+        assertFalse(token.isEmpty());
         assertTrue(jwtService.isTokenValid(token, userDetails));
     }
 
@@ -87,19 +87,13 @@ class JwtServiceTest {
     @Test
     @DisplayName("Should handle expired tokens")
     void isTokenValid_ExpiredToken() {
-        // Create a token with minimal expiration time
+        // Create a token that's already expired (expiration time in the past)
         String token = Jwts.builder()
                 .setSubject(userDetails.getUsername())
-                .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis())) // Expire immediately
+                .setIssuedAt(new Date(System.currentTimeMillis() - 2000)) // 2 seconds ago
+                .setExpiration(new Date(System.currentTimeMillis() - 1000)) // 1 second ago
                 .signWith(getSignInKey(), SignatureAlgorithm.HS256)
                 .compact();
-
-        try {
-            Thread.sleep(1); // Ensure token is expired
-        } catch (InterruptedException e) {
-            // Ignore
-        }
 
         boolean isValid = jwtService.isTokenValid(token, userDetails);
         assertFalse(isValid, "Token should be invalid because it's expired");

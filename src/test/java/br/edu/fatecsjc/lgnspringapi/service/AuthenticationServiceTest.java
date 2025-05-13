@@ -95,12 +95,11 @@ class AuthenticationServiceTest {
         when(userRepository.save(any(User.class))).thenReturn(user);
         when(jwtService.generateToken(any(User.class))).thenReturn(jwtToken);
         when(jwtService.generateRefreshToken(any(User.class))).thenReturn(refreshToken);
+        AuthenticationResponseDTO authResponse = authenticationService.register(registerRequest);
 
-        AuthenticationResponseDTO response = authenticationService.register(registerRequest);
-
-        assertNotNull(response);
-        assertEquals(jwtToken, response.getAccessToken());
-        assertEquals(refreshToken, response.getRefreshToken());
+        assertNotNull(authResponse);
+        assertEquals(jwtToken, authResponse.getAccessToken());
+        assertEquals(refreshToken, authResponse.getRefreshToken());
 
         verify(tokenRepository).save(any(Token.class));
     }
@@ -125,12 +124,11 @@ class AuthenticationServiceTest {
         when(jwtService.generateToken(user)).thenReturn(jwtToken);
         when(jwtService.generateRefreshToken(user)).thenReturn(refreshToken);
         when(tokenRepository.findAllValidTokenByUser(user.getId())).thenReturn(new ArrayList<>());
+        AuthenticationResponseDTO authResponse = authenticationService.authenticate(authRequest);
 
-        AuthenticationResponseDTO response = authenticationService.authenticate(authRequest);
-
-        assertNotNull(response);
-        assertEquals(jwtToken, response.getAccessToken());
-        assertEquals(refreshToken, response.getRefreshToken());
+        assertNotNull(authResponse);
+        assertEquals(jwtToken, authResponse.getAccessToken());
+        assertEquals(refreshToken, authResponse.getRefreshToken());
 
         verify(authenticationManager).authenticate(
                 any(UsernamePasswordAuthenticationToken.class));
@@ -164,7 +162,8 @@ class AuthenticationServiceTest {
             }
 
             @Override
-            public void setWriteListener(WriteListener writeListener) {
+            public void setWriteListener(WriteListener listener) {
+                // Empty because it's not needed for this test mock
             }
 
             @Override
