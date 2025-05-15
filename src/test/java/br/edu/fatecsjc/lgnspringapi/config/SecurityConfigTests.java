@@ -2,20 +2,21 @@ package br.edu.fatecsjc.lgnspringapi.config;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.web.authentication.logout.LogoutHandler;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import org.springframework.test.context.ActiveProfiles;
 
 @SpringBootTest
-@AutoConfigureMockMvc
 @ActiveProfiles("test")
+@AutoConfigureMockMvc
 public class SecurityConfigTests {
 
     @Autowired
@@ -54,13 +55,15 @@ public class SecurityConfigTests {
     void authEndpointsShouldBeAccessible() throws Exception {
         mockMvc.perform(get("/auth/register"))
                 .andExpect(status().is4xxClientError());
-    }    @Test
+    }
+
+    @Test
     void securedEndpointsShouldRequireAuthentication() throws Exception {
         mockMvc.perform(get("/group"))
                 .andExpect(result -> {
                     int status = result.getResponse().getStatus();
                     assertTrue(status == 401 || status == 403,
-                        "Expected HTTP status 401 (Unauthorized) or 403 (Forbidden) but was: " + status);
+                            "Expected HTTP status 401 (Unauthorized) or 403 (Forbidden) but was: " + status);
                 });
     }
 }

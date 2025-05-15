@@ -9,29 +9,30 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
 @ActiveProfiles("test")
+class ModalMapperConfigTests {
+        @Autowired
+        private ModelMapper modelMapper;
 
-public class ModalMapperConfigTests {
-    @Autowired
-    private ModelMapper modelMapper;
+        @Test
+        @DisplayName("Should configure ModelMapper with correct settings")
+        void testModelMapperConfiguration() {
+                assertNotNull(modelMapper, "ModelMapper should be injected");
 
-    @Test
-    @DisplayName("Should configure ModelMapper with correct settings")
-    void testModelMapperConfiguration() {
-        assertNotNull(modelMapper, "ModelMapper should be injected");
+                var config = modelMapper.getConfiguration();
 
-        var config = modelMapper.getConfiguration();
+                assertTrue(config.isFieldMatchingEnabled(),
+                                "Field matching should be enabled");
 
-        assertTrue(config.isFieldMatchingEnabled(),
-                "Field matching should be enabled");
+                assertEquals(AccessLevel.PRIVATE, config.getFieldAccessLevel(),
+                                "Field access level should be PRIVATE");
 
-        assertEquals(AccessLevel.PRIVATE, config.getFieldAccessLevel(),
-                "Field access level should be PRIVATE");
-
-        assertEquals(NamingConventions.JAVABEANS_MUTATOR, config.getSourceNamingConvention(),
-                "Source naming convention should be JAVABEANS_MUTATOR");
-    }
+                assertEquals(NamingConventions.JAVABEANS_MUTATOR, config.getSourceNamingConvention(),
+                                "Source naming convention should be JAVABEANS_MUTATOR");
+        }
 }

@@ -1,16 +1,18 @@
 package br.edu.fatecsjc.lgnspringapi.config;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.info.Info;
 import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import io.swagger.v3.oas.models.OpenAPI;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-public class OpenApiConfigTests {
+@ActiveProfiles("test")
+class OpenApiConfigTests {
     private OpenAPI openAPI;
 
     @Test

@@ -2,13 +2,18 @@ package br.edu.fatecsjc.lgnspringapi.converter;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-public class ConverterTests {
+@SpringBootTest
+@ActiveProfiles("test")
+class ConverterTests {
     private ConverterTest converter;
 
     @BeforeEach
@@ -61,5 +66,5 @@ public class ConverterTests {
         assertEquals("A", dtos.get(0).getValue());
         assertEquals("B", dtos.get(1).getValue());
         assertEquals("C", dtos.get(2).getValue());
-    }    
+    }
 }
