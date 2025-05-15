@@ -1,19 +1,23 @@
 package br.edu.fatecsjc.lgnspringapi.entity;
 
+import java.util.Collection;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.test.context.ActiveProfiles;
+
+import br.edu.fatecsjc.lgnspringapi.enums.Role;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.util.Collection;
-
-import org.junit.jupiter.api.Test;
-import org.springframework.security.core.GrantedAuthority;
-
-import br.edu.fatecsjc.lgnspringapi.enums.Role;
-
-public class UserTests {
+@SpringBootTest
+@ActiveProfiles("test")
+class UserTests {
     @Test
     public void testBuilderAndGetters() {
         User user = User.builder()
