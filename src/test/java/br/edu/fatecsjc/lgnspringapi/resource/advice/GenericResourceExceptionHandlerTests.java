@@ -11,7 +11,7 @@ import java.time.Instant;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 
-public class GenericResourceExceptionHandlerTests {
+class GenericResourceExceptionHandlerTests {
         @Test
         void testCatchExceptionReturningBadRequest() {
                 GenericResourceExceptionHandler handler = new GenericResourceExceptionHandler();
