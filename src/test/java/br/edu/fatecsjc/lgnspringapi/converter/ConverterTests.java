@@ -14,42 +14,42 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 @SpringBootTest
 @ActiveProfiles("test")
 class ConverterTests {
-    private ConverterTest converter;
+    private SimpleConverter converter;
 
     @BeforeEach
     void setup() {
-        converter = new ConverterTest();
+        converter = new SimpleConverter();
     }
 
     @Test
     void testConvertToEntity() {
-        DTOTest dto = new DTOTest("test");
-        EntityTest entity = converter.convertToEntity(dto);
+        SimpleDTO dto = new SimpleDTO("test");
+        SimpleEntity entity = converter.convertToEntity(dto);
         assertNotNull(entity, "A entidade não deve ser nula");
         assertEquals("test", entity.getValue(), "O valor da entidade deve vir do DTO");
     }
 
     @Test
     void testConvertToEntityWithExistingEntity() {
-        DTOTest dto = new DTOTest("updated");
-        EntityTest entity = new EntityTest("original");
-        EntityTest updatedEntity = converter.convertToEntity(dto, entity);
+        SimpleDTO dto = new SimpleDTO("updated");
+        SimpleEntity entity = new SimpleEntity("original");
+        SimpleEntity updatedEntity = converter.convertToEntity(dto, entity);
         assertNotNull(updatedEntity, "A entidade atualizada não deve ser nula");
         assertEquals("updated", updatedEntity.getValue(), "O valor deve ser atualizado a partir do DTO");
     }
 
     @Test
     void testConvertToDto() {
-        EntityTest entity = new EntityTest("entityValue");
-        DTOTest dto = converter.convertToDto(entity);
+        SimpleEntity entity = new SimpleEntity("entityValue");
+        SimpleDTO dto = converter.convertToDto(entity);
         assertNotNull(dto, "O DTO não deve ser nulo");
         assertEquals("entityValue", dto.getValue(), "O valor do DTO deve vir da entidade");
     }
 
     @Test
     void testConvertToEntityList() {
-        List<DTOTest> dtos = Arrays.asList(new DTOTest("1"), new DTOTest("2"), new DTOTest("3"));
-        List<EntityTest> entities = converter.convertToEntity(dtos);
+        List<SimpleDTO> dtos = Arrays.asList(new SimpleDTO("1"), new SimpleDTO("2"), new SimpleDTO("3"));
+        List<SimpleEntity> entities = converter.convertToEntity(dtos);
         assertNotNull(entities, "A lista de entidades não deve ser nula");
         assertEquals(3, entities.size(), "A lista de entidades deve conter 3 elementos");
         assertEquals("1", entities.get(0).getValue());
@@ -59,8 +59,9 @@ class ConverterTests {
 
     @Test
     void testConvertToDtoList() {
-        List<EntityTest> entities = Arrays.asList(new EntityTest("A"), new EntityTest("B"), new EntityTest("C"));
-        List<DTOTest> dtos = converter.convertToDto(entities);
+        List<SimpleEntity> entities = Arrays.asList(new SimpleEntity("A"), new SimpleEntity("B"),
+                new SimpleEntity("C"));
+        List<SimpleDTO> dtos = converter.convertToDto(entities);
         assertNotNull(dtos, "A lista de DTOs não deve ser nula");
         assertEquals(3, dtos.size(), "A lista de DTOs deve conter 3 elementos");
         assertEquals("A", dtos.get(0).getValue());

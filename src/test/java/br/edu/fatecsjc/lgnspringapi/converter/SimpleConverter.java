@@ -2,16 +2,16 @@ package br.edu.fatecsjc.lgnspringapi.converter;
 
 import java.util.List;
 
-public class ConverterTest implements Converter<EntityTest, DTOTest> {
+public class SimpleConverter implements Converter<SimpleEntity, SimpleDTO> {
     @Override
-    public EntityTest convertToEntity(DTOTest dto) {
+    public SimpleEntity convertToEntity(SimpleDTO dto) {
         if (dto == null)
             return null;
-        return new EntityTest(dto.getValue());
+        return new SimpleEntity(dto.getValue());
     }
 
     @Override
-    public EntityTest convertToEntity(DTOTest dto, EntityTest entity) {
+    public SimpleEntity convertToEntity(SimpleDTO dto, SimpleEntity entity) {
         if (dto == null || entity == null)
             return null;
         entity.setValue(dto.getValue());
@@ -19,14 +19,14 @@ public class ConverterTest implements Converter<EntityTest, DTOTest> {
     }
 
     @Override
-    public DTOTest convertToDto(EntityTest entity) {
+    public SimpleDTO convertToDto(SimpleEntity entity) {
         if (entity == null)
             return null;
-        return new DTOTest(entity.getValue());
+        return new SimpleDTO(entity.getValue());
     }
 
     @Override
-    public List<EntityTest> convertToEntity(List<DTOTest> dtos) {
+    public List<SimpleEntity> convertToEntity(List<SimpleDTO> dtos) {
         if (dtos == null)
             return null;
         return dtos.stream()
@@ -35,7 +35,7 @@ public class ConverterTest implements Converter<EntityTest, DTOTest> {
     }
 
     @Override
-    public List<DTOTest> convertToDto(List<EntityTest> entities) {
+    public List<SimpleDTO> convertToDto(List<SimpleEntity> entities) {
         if (entities == null)
             return null;
         return entities.stream()

@@ -2,13 +2,13 @@ package br.edu.fatecsjc.lgnspringapi.converter;
 
 import java.util.Objects;
 
-public class DTOTest {
+public class SimpleEntity {
     private String value;
 
-    public DTOTest() {
+    public SimpleEntity() {
     }
 
-    public DTOTest(String value) {
+    public SimpleEntity(String value) {
         this.value = value;
     }
 
@@ -24,10 +24,10 @@ public class DTOTest {
     public boolean equals(Object o) {
         if (this == o)
             return true;
-        if (!(o instanceof DTOTest))
+        if (!(o instanceof SimpleEntity))
             return false;
-        DTOTest dto = (DTOTest) o;
-        return Objects.equals(getValue(), dto.getValue());
+        SimpleEntity that = (SimpleEntity) o;
+        return Objects.equals(getValue(), that.getValue());
     }
 
     @Override
