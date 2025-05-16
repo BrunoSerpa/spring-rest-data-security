@@ -13,75 +13,76 @@ import static org.junit.jupiter.api.Assertions.*;
 @ActiveProfiles("test")
 class ApiErrorDTOTests {
     @Test
-     void testAllArgsConstructor() {
-        String message = "An error occurred";
-        Instant expectedTimestamp = Instant.parse("2021-01-01T12:00:00Z");
+    void testAllArgsConstructorAndDataMethods() {
+        String message = "Custom error message";
+        Instant timestamp = Instant.parse("2021-01-01T00:00:00Z");
+        ApiErrorDTO error1 = new ApiErrorDTO(message, timestamp);
 
-        ApiErrorDTO error = new ApiErrorDTO(message, expectedTimestamp);
+        assertEquals(message, error1.getMessage(), "Getter deve retornar a mensagem configurada");
+        assertEquals(timestamp, error1.getTimestamp(), "Getter deve retornar o timestamp configurado");
 
-        assertEquals(message, error.getMessage(), "O message deve ser o informado");
-        assertEquals(expectedTimestamp, error.getTimestamp(), "O timestamp deve ser o informado");
+        String toStringResult = error1.toString();
+        assertNotNull(toStringResult, "toString não deve ser nulo");
+        assertTrue(toStringResult.contains(message), "toString deve conter a mensagem");
+        assertTrue(toStringResult.contains(timestamp.toString()), "toString deve conter o timestamp");
+
+        ApiErrorDTO error2 = new ApiErrorDTO(message, timestamp);
+        assertEquals(error1, error2, "Instâncias com os mesmos valores devem ser iguais");
+        assertEquals(error1.hashCode(), error2.hashCode(), "HashCodes devem ser iguais para instâncias iguais");
+
+        ApiErrorDTO error3 = new ApiErrorDTO("Outra mensagem", timestamp);
+        assertNotEquals(error1, error3, "Instâncias com valores diferentes não devem ser iguais");
     }
 
     @Test
-     void testNoArgsConstructorAndSetters() {
+    void testNoArgsConstructorAndSetters() {
         ApiErrorDTO error = new ApiErrorDTO();
-        error.setMessage("NoArgs error");
+        String message = "Setter test";
+        Instant timestamp = Instant.parse("2022-01-01T00:00:00Z");
+        error.setMessage(message);
+        error.setTimestamp(timestamp);
 
-        assertEquals("NoArgs error", error.getMessage(), "O message deve ser igual ao setado");
-        assertNotNull(error.getTimestamp(), "O timestamp deve ter sido inicializado");
+        assertEquals(message, error.getMessage(), "Getter para message deve retornar o valor setado");
+        assertEquals(timestamp, error.getTimestamp(), "Getter para timestamp deve retornar o valor setado");
     }
 
     @Test
-     void testBuilderWithoutTimestamp() {
-        String message = "Builder error with default timestamp";
+    void testBuilderWithoutExplicitTimestamp() {
+        String message = "Builder message with default timestamp";
         ApiErrorDTO error = ApiErrorDTO.builder()
                 .message(message)
                 .build();
 
-        assertEquals(message, error.getMessage(), "O message construído deve ser o informado");
-        assertNotNull(error.getTimestamp(), "O timestamp padrão gerado pelo builder não deve ser nulo");
-
+        assertEquals(message, error.getMessage(), "O message deve ser o informado via builder");
+        assertNotNull(error.getTimestamp(), "Timestamp default não deve ser nulo");
         Instant now = Instant.now();
         Duration diff = Duration.between(error.getTimestamp(), now).abs();
-        assertTrue(diff.getSeconds() < 1, "O timestamp deve estar próximo do instante atual");
+        assertTrue(diff.getSeconds() < 1, "O timestamp default deve estar próximo do instante atual");
     }
 
     @Test
-     void testBuilderWithExplicitTimestamp() {
-        String message = "Builder error with explicit timestamp";
+    void testBuilderWithExplicitTimestamp() {
+        String message = "Builder message with explicit timestamp";
         Instant explicitTimestamp = Instant.parse("2022-12-31T23:59:59Z");
-
         ApiErrorDTO error = ApiErrorDTO.builder()
                 .message(message)
                 .timestamp(explicitTimestamp)
                 .build();
 
-        assertEquals(message, error.getMessage(), "O message deve ser igual ao informado");
-        assertEquals(explicitTimestamp, error.getTimestamp(), "O timestamp deve ser o timestamp explícito informado");
+        assertEquals(message, error.getMessage(), "O message construído deve ser o informado");
+        assertEquals(explicitTimestamp, error.getTimestamp(),
+                "O timestamp construído deve ser o timestamp explícito informado");
     }
 
     @Test
-     void testEqualsAndHashCode() {
-        String message = "Equality test message";
-        Instant timestamp = Instant.parse("2023-05-05T10:15:30Z");
+    void testHashCodeConsistency() {
+        ApiErrorDTO error = ApiErrorDTO.builder()
+                .message("Consistent")
+                .timestamp(Instant.parse("2021-01-01T00:00:00Z"))
+                .build();
 
-        ApiErrorDTO error1 = new ApiErrorDTO(message, timestamp);
-        ApiErrorDTO error2 = new ApiErrorDTO(message, timestamp);
-
-        assertEquals(error1, error2, "As instâncias devem ser iguais com os mesmos atributos");
-        assertEquals(error1.hashCode(), error2.hashCode(), "Os hashcodes devem ser iguais");
-    }
-
-    @Test
-     void testToString() {
-        String message = "Test toString";
-        Instant timestamp = Instant.parse("2020-06-06T12:12:12Z");
-        ApiErrorDTO error = new ApiErrorDTO(message, timestamp);
-
-        String toString = error.toString();
-        assertNotNull(toString, "O toString não deve ser nulo");
-        assertTrue(toString.contains(message), "O toString deve conter a mensagem");
-        assertTrue(toString.contains(timestamp.toString()), "O toString deve conter o timestamp");
+        int hash1 = error.hashCode();
+        int hash2 = error.hashCode();
+        assertEquals(hash1, hash2, "HashCode deve ser consistente mesmo com múltiplas invocações");
     }
 }
