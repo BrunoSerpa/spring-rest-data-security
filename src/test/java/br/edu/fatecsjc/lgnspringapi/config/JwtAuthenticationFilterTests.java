@@ -55,7 +55,7 @@ class JwtAuthenticationFilterIntegrationTests {
     }
 
     @Test
-    public void testDoFilterInternal_whenPathContainsAuth_thenChainCalled() throws ServletException, IOException {
+    void testDoFilterInternal_whenPathContainsAuth_thenChainCalled() throws ServletException, IOException {
         HttpServletRequest request = mock(HttpServletRequest.class);
         HttpServletResponse response = mock(HttpServletResponse.class);
         FilterChain filterChain = mock(FilterChain.class);
@@ -66,7 +66,7 @@ class JwtAuthenticationFilterIntegrationTests {
     }
 
     @Test
-    public void testDoFilterInternal_whenNoAuthHeader_thenChainCalled() throws ServletException, IOException {
+    void testDoFilterInternal_whenNoAuthHeader_thenChainCalled() throws ServletException, IOException {
         HttpServletRequest request = mock(HttpServletRequest.class);
         HttpServletResponse response = mock(HttpServletResponse.class);
         FilterChain filterChain = mock(FilterChain.class);
@@ -78,7 +78,7 @@ class JwtAuthenticationFilterIntegrationTests {
     }
 
     @Test
-    public void testDoFilterInternal_whenAuthHeaderNotBearer_thenChainCalled() throws ServletException, IOException {
+    void testDoFilterInternal_whenAuthHeaderNotBearer_thenChainCalled() throws ServletException, IOException {
         HttpServletRequest request = mock(HttpServletRequest.class);
         HttpServletResponse response = mock(HttpServletResponse.class);
         FilterChain filterChain = mock(FilterChain.class);
@@ -90,7 +90,7 @@ class JwtAuthenticationFilterIntegrationTests {
     }
 
     @Test
-    public void testDoFilterInternal_whenInvalidToken_thenChainCalledWithoutAuthentication()
+    void testDoFilterInternal_whenInvalidToken_thenChainCalledWithoutAuthentication()
             throws ServletException, IOException {
         HttpServletRequest request = mock(HttpServletRequest.class);
         HttpServletResponse response = mock(HttpServletResponse.class);
@@ -103,7 +103,7 @@ class JwtAuthenticationFilterIntegrationTests {
     }
 
     @Test
-    public void testDoFilterInternal_whenValidToken_thenAuthenticationIsSet() throws ServletException, IOException {
+    void testDoFilterInternal_whenValidToken_thenAuthenticationIsSet() throws ServletException, IOException {
         HttpServletRequest request = mock(HttpServletRequest.class);
         HttpServletResponse response = mock(HttpServletResponse.class);
         FilterChain filterChain = mock(FilterChain.class);

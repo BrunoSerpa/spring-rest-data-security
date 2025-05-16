@@ -12,32 +12,32 @@ import java.util.Optional;
 
 @DataJpaTest
 @ActiveProfiles("test")
-public class UserRepositoryTests {
-    @Autowired
-    private UserRepository userRepositoryTests;
+class UserRepositoryTests {
+        @Autowired
+        private UserRepository userRepositoryTests;
 
-    @Test
-    public void testFindByEmail_whenUserExists() {
-        User user = User.builder()
-                .firstName("Alice")
-                .lastName("Smith")
-                .email("alice@example.com")
-                .password("password")
-                .build();
-        user = userRepositoryTests.save(user);
+        @Test
+        void testFindByEmail_whenUserExists() {
+                User user = User.builder()
+                                .firstName("Alice")
+                                .lastName("Smith")
+                                .email("alice@example.com")
+                                .password("password")
+                                .build();
+                user = userRepositoryTests.save(user);
 
-        Optional<User> foundUser = userRepositoryTests.findByEmail("alice@example.com");
-        assertThat(foundUser)
-                .as("Verifica se o usuário foi encontrado pelo email")
-                .isPresent();
-        assertThat(foundUser.get().getEmail()).isEqualTo("alice@example.com");
-    }
+                Optional<User> foundUser = userRepositoryTests.findByEmail("alice@example.com");
+                assertThat(foundUser)
+                                .as("Verifica se o usuário foi encontrado pelo email")
+                                .isPresent();
+                assertThat(foundUser.get().getEmail()).isEqualTo("alice@example.com");
+        }
 
-    @Test
-    public void testFindByEmail_whenUserDoesNotExist() {
-        Optional<User> foundUser = userRepositoryTests.findByEmail("nonexistent@example.com");
-        assertThat(foundUser)
-                .as("Verifica que não há usuário para o email inexistente")
-                .isNotPresent();
-    }
+        @Test
+        void testFindByEmail_whenUserDoesNotExist() {
+                Optional<User> foundUser = userRepositoryTests.findByEmail("nonexistent@example.com");
+                assertThat(foundUser)
+                                .as("Verifica que não há usuário para o email inexistente")
+                                .isNotPresent();
+        }
 }

@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @ActiveProfiles("test")
 class ApiErrorDTOTests {
     @Test
-    public void testAllArgsConstructor() {
+     void testAllArgsConstructor() {
         String message = "An error occurred";
         Instant expectedTimestamp = Instant.parse("2021-01-01T12:00:00Z");
 
@@ -24,7 +24,7 @@ class ApiErrorDTOTests {
     }
 
     @Test
-    public void testNoArgsConstructorAndSetters() {
+     void testNoArgsConstructorAndSetters() {
         ApiErrorDTO error = new ApiErrorDTO();
         error.setMessage("NoArgs error");
 
@@ -33,7 +33,7 @@ class ApiErrorDTOTests {
     }
 
     @Test
-    public void testBuilderWithoutTimestamp() {
+     void testBuilderWithoutTimestamp() {
         String message = "Builder error with default timestamp";
         ApiErrorDTO error = ApiErrorDTO.builder()
                 .message(message)
@@ -48,7 +48,7 @@ class ApiErrorDTOTests {
     }
 
     @Test
-    public void testBuilderWithExplicitTimestamp() {
+     void testBuilderWithExplicitTimestamp() {
         String message = "Builder error with explicit timestamp";
         Instant explicitTimestamp = Instant.parse("2022-12-31T23:59:59Z");
 
@@ -62,7 +62,7 @@ class ApiErrorDTOTests {
     }
 
     @Test
-    public void testEqualsAndHashCode() {
+     void testEqualsAndHashCode() {
         String message = "Equality test message";
         Instant timestamp = Instant.parse("2023-05-05T10:15:30Z");
 
@@ -74,7 +74,7 @@ class ApiErrorDTOTests {
     }
 
     @Test
-    public void testToString() {
+     void testToString() {
         String message = "Test toString";
         Instant timestamp = Instant.parse("2020-06-06T12:12:12Z");
         ApiErrorDTO error = new ApiErrorDTO(message, timestamp);

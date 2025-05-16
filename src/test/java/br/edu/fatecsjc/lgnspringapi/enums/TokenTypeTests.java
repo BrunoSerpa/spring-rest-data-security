@@ -8,7 +8,7 @@ import org.springframework.test.context.ActiveProfiles;
 
 @SpringBootTest
 @ActiveProfiles("test")
-public class TokenTypeTests {
+ class TokenTypeTests {
     @Test
     void testTokenTypeValues() {
         assertEquals("BEARER", TokenType.BEARER.name());

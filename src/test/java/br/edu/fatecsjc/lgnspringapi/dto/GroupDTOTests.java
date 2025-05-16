@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @ActiveProfiles("test")
 class GroupDTOTests {
     @Test
-    public void testBuilderAndGetters() {
+     void testBuilderAndGetters() {
         MemberDTO member = MemberDTO.builder()
                 .id(100L)
                 .name("Test Member")
@@ -32,7 +32,7 @@ class GroupDTOTests {
     }
 
     @Test
-    public void testNoArgsConstructorAndSetters() {
+     void testNoArgsConstructorAndSetters() {
         GroupDTO group = new GroupDTO();
         assertNull(group.getId());
         assertNull(group.getName());
@@ -53,7 +53,7 @@ class GroupDTOTests {
     }
 
     @Test
-    public void testEqualsAndHashCode() {
+     void testEqualsAndHashCode() {
         MemberDTO member = MemberDTO.builder()
                 .id(102L)
                 .name("Member C")
@@ -82,7 +82,7 @@ class GroupDTOTests {
     }
 
     @Test
-    public void testToString() {
+     void testToString() {
         GroupDTO group = GroupDTO.builder()
                 .id(5L)
                 .name("Group E")
@@ -95,7 +95,7 @@ class GroupDTOTests {
     }
 
     @Test
-    public void testJsonInclude() throws Exception {
+     void testJsonInclude() throws Exception {
         GroupDTO group = GroupDTO.builder()
                 .name("Group F")
                 .build();

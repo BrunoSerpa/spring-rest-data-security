@@ -21,7 +21,7 @@ class MemberRepositoryTests {
         private GroupRepository groupRepository;
 
         @Test
-        public void testFindByGroupId() {
+        void testFindByGroupId() {
                 GroupEntity group = GroupEntity.builder()
                                 .name("Group X")
                                 .build();
@@ -47,7 +47,7 @@ class MemberRepositoryTests {
         }
 
         @Test
-        public void testDeleteByGroup() {
+        void testDeleteByGroup() {
                 GroupEntity group = GroupEntity.builder()
                                 .name("Group Y")
                                 .build();

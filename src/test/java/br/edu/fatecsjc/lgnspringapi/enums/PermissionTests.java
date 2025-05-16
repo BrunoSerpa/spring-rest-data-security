@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 @ActiveProfiles("test")
 class PermissionTests {
     @Test
-    public void testPermissionValues() {
+     void testPermissionValues() {
         Permission[] permissions = Permission.values();
         assertEquals(2, permissions.length);
 
@@ -25,7 +25,7 @@ class PermissionTests {
     }
 
     @Test
-    public void testValueOf() {
+     void testValueOf() {
         Permission permission = Permission.valueOf("ADMIN_CREATE");
         assertNotNull(permission);
         assertEquals(Permission.ADMIN_CREATE, permission);

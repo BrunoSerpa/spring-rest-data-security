@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @ActiveProfiles("test")
 class AuthenticationResponseDTOTests {
     @Test
-    public void testAllArgsConstructor() {
+     void testAllArgsConstructor() {
         String accessToken = "token1";
         String refreshToken = "token2";
 
@@ -23,7 +23,7 @@ class AuthenticationResponseDTOTests {
     }
 
     @Test
-    public void testNoArgsConstructorAndSetters() {
+     void testNoArgsConstructorAndSetters() {
         AuthenticationResponseDTO dto = new AuthenticationResponseDTO();
         dto.setAccessToken("tokenA");
         dto.setRefreshToken("tokenB");
@@ -33,7 +33,7 @@ class AuthenticationResponseDTOTests {
     }
 
     @Test
-    public void testBuilder() {
+     void testBuilder() {
         AuthenticationResponseDTO dto = AuthenticationResponseDTO.builder()
                 .accessToken("access")
                 .refreshToken("refresh")
@@ -44,7 +44,7 @@ class AuthenticationResponseDTOTests {
     }
 
     @Test
-    public void testEqualsAndHashCode() {
+     void testEqualsAndHashCode() {
         AuthenticationResponseDTO dto1 = AuthenticationResponseDTO.builder()
                 .accessToken("token")
                 .refreshToken("refresh")
@@ -59,7 +59,7 @@ class AuthenticationResponseDTOTests {
     }
 
     @Test
-    public void testToString() {
+     void testToString() {
         AuthenticationResponseDTO dto = AuthenticationResponseDTO.builder()
                 .accessToken("token")
                 .refreshToken("refresh")
@@ -72,7 +72,7 @@ class AuthenticationResponseDTOTests {
     }
 
     @Test
-    public void testJsonSerialization() throws JsonProcessingException {
+     void testJsonSerialization() throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
         AuthenticationResponseDTO dto = AuthenticationResponseDTO.builder()
                 .accessToken("token123")
@@ -87,7 +87,7 @@ class AuthenticationResponseDTOTests {
     }
 
     @Test
-    public void testJsonDeserialization() throws JsonProcessingException {
+     void testJsonDeserialization() throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
         String json = "{\"access_token\":\"token456\",\"refresh_token\":\"refresh456\"}";
 

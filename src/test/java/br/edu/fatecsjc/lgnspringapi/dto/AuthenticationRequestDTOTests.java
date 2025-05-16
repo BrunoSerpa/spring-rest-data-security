@@ -19,13 +19,13 @@ class AuthenticationRequestDTOTests {
     private static Validator validator;
 
     @BeforeAll
-    public static void setUpValidator() {
+     static void setUpValidator() {
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         validator = factory.getValidator();
     }
 
     @Test
-    public void testAllArgsConstructor_valid() {
+     void testAllArgsConstructor_valid() {
         String email = "user@example.com";
         String password = "password123";
         AuthenticationRequestDTO dto = new AuthenticationRequestDTO(email, password);
@@ -38,7 +38,7 @@ class AuthenticationRequestDTOTests {
     }
 
     @Test
-    public void testBuilder_valid() {
+     void testBuilder_valid() {
         String email = "user@example.com";
         String password = "password123";
         AuthenticationRequestDTO dto = AuthenticationRequestDTO.builder()
@@ -54,7 +54,7 @@ class AuthenticationRequestDTOTests {
     }
 
     @Test
-    public void testInvalidEmail() {
+     void testInvalidEmail() {
         String invalidEmail = "invalid_email";
         String password = "password123";
         AuthenticationRequestDTO dto = new AuthenticationRequestDTO(invalidEmail, password);
@@ -69,7 +69,7 @@ class AuthenticationRequestDTOTests {
     }
 
     @Test
-    public void testNullEmail() {
+     void testNullEmail() {
         String password = "password123";
         // Criação do DTO com email null
         AuthenticationRequestDTO dto = AuthenticationRequestDTO.builder()
@@ -85,7 +85,7 @@ class AuthenticationRequestDTOTests {
     }
 
     @Test
-    public void testNullPassword() {
+     void testNullPassword() {
         String email = "user@example.com";
         // Criação do DTO com password null
         AuthenticationRequestDTO dto = AuthenticationRequestDTO.builder()
@@ -101,7 +101,7 @@ class AuthenticationRequestDTOTests {
     }
 
     @Test
-    public void testEqualsAndHashCode() {
+     void testEqualsAndHashCode() {
         String email = "user@example.com";
         String password = "password123";
         AuthenticationRequestDTO dto1 = new AuthenticationRequestDTO(email, password);
@@ -115,7 +115,7 @@ class AuthenticationRequestDTOTests {
     }
 
     @Test
-    public void testToString() {
+     void testToString() {
         String email = "user@example.com";
         String password = "password123";
         AuthenticationRequestDTO dto = new AuthenticationRequestDTO(email, password);

@@ -54,7 +54,7 @@ public class AuthenticationServiceTests {
     private AuthenticationService authenticationService;
 
     @Test
-    public void testRegisterSuccessful() {
+    void testRegisterSuccessful() {
         RegisterRequestDTO request = RegisterRequestDTO.builder()
                 .firstname("John")
                 .lastname("Doe")
@@ -86,7 +86,7 @@ public class AuthenticationServiceTests {
     }
 
     @Test
-    public void testRegisterEmailAlreadyExists() {
+    void testRegisterEmailAlreadyExists() {
         RegisterRequestDTO request = RegisterRequestDTO.builder()
                 .firstname("John")
                 .lastname("Doe")
@@ -102,7 +102,7 @@ public class AuthenticationServiceTests {
     }
 
     @Test
-    public void testAuthenticateSuccessful() {
+    void testAuthenticateSuccessful() {
         AuthenticationRequestDTO request = AuthenticationRequestDTO.builder()
                 .email("john.doe@example.com")
                 .password("password")
@@ -133,7 +133,7 @@ public class AuthenticationServiceTests {
     }
 
     @Test
-    public void testAuthenticateUserNotFound() {
+    void testAuthenticateUserNotFound() {
         AuthenticationRequestDTO request = AuthenticationRequestDTO.builder()
                 .email("nonexistent@example.com")
                 .password("password")
@@ -150,7 +150,7 @@ public class AuthenticationServiceTests {
     }
 
     @Test
-    public void testRefreshTokenInvalidHeader() {
+    void testRefreshTokenInvalidHeader() {
         HttpServletRequest request = mock(HttpServletRequest.class);
         HttpServletResponse response = mock(HttpServletResponse.class);
         when(request.getHeader(HttpHeaders.AUTHORIZATION)).thenReturn(null);
@@ -162,7 +162,7 @@ public class AuthenticationServiceTests {
     }
 
     @Test
-    public void testRefreshTokenTokenNotValid() {
+    void testRefreshTokenTokenNotValid() {
         String refreshToken = "validRefreshToken";
         String userEmail = "john.doe@example.com";
         HttpServletRequest request = mock(HttpServletRequest.class);
@@ -185,7 +185,7 @@ public class AuthenticationServiceTests {
     }
 
     @Test
-    public void testRefreshTokenSuccessful() throws IOException {
+    void testRefreshTokenSuccessful() throws IOException {
         String refreshToken = "validRefreshToken";
         String userEmail = "john.doe@example.com";
         HttpServletRequest request = mock(HttpServletRequest.class);
@@ -217,7 +217,7 @@ public class AuthenticationServiceTests {
     private static class DelegatingServletOutputStream extends jakarta.servlet.ServletOutputStream {
         private final OutputStream targetStream;
 
-        public DelegatingServletOutputStream(OutputStream targetStream) {
+         DelegatingServletOutputStream(OutputStream targetStream) {
             this.targetStream = targetStream;
         }
 

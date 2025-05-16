@@ -11,50 +11,50 @@ import org.springframework.test.context.ActiveProfiles;
 @DataJpaTest
 @ActiveProfiles("test")
 class GroupRepositoryTests {
-    @Autowired
-    private GroupRepository groupRepository;
+        @Autowired
+        private GroupRepository groupRepository;
 
-    @Test
-    public void testSaveAndFindById() {
-        GroupEntity group = GroupEntity.builder()
-                .name("Group A")
-                .build();
+        @Test
+        void testSaveAndFindById() {
+                GroupEntity group = GroupEntity.builder()
+                                .name("Group A")
+                                .build();
 
-        GroupEntity savedGroup = groupRepository.save(group);
-        assertThat(savedGroup.getId()).isNotNull();
-        assertThat(savedGroup.getName()).isEqualTo("Group A");
+                GroupEntity savedGroup = groupRepository.save(group);
+                assertThat(savedGroup.getId()).isNotNull();
+                assertThat(savedGroup.getName()).isEqualTo("Group A");
 
-        GroupEntity foundGroup = groupRepository.findById(savedGroup.getId()).orElse(null);
-        assertThat(foundGroup).isNotNull();
-        assertThat(foundGroup.getId()).isEqualTo(savedGroup.getId());
-        assertThat(foundGroup.getName()).isEqualTo("Group A");
-    }
+                GroupEntity foundGroup = groupRepository.findById(savedGroup.getId()).orElse(null);
+                assertThat(foundGroup).isNotNull();
+                assertThat(foundGroup.getId()).isEqualTo(savedGroup.getId());
+                assertThat(foundGroup.getName()).isEqualTo("Group A");
+        }
 
-    @Test
-    public void testDeleteGroup() {
-        GroupEntity group = GroupEntity.builder()
-                .name("Group B")
-                .build();
-        GroupEntity savedGroup = groupRepository.save(group);
-        Long id = savedGroup.getId();
-        assertThat(id).isNotNull();
+        @Test
+        void testDeleteGroup() {
+                GroupEntity group = GroupEntity.builder()
+                                .name("Group B")
+                                .build();
+                GroupEntity savedGroup = groupRepository.save(group);
+                Long id = savedGroup.getId();
+                assertThat(id).isNotNull();
 
-        groupRepository.delete(savedGroup);
-        GroupEntity deletedGroup = groupRepository.findById(id).orElse(null);
-        assertThat(deletedGroup).isNull();
-    }
+                groupRepository.delete(savedGroup);
+                GroupEntity deletedGroup = groupRepository.findById(id).orElse(null);
+                assertThat(deletedGroup).isNull();
+        }
 
-    @Test
-    public void testFindAll() {
-        GroupEntity group1 = GroupEntity.builder()
-                .name("Group C")
-                .build();
-        GroupEntity group2 = GroupEntity.builder()
-                .name("Group D")
-                .build();
-        groupRepository.save(group1);
-        groupRepository.save(group2);
+        @Test
+        void testFindAll() {
+                GroupEntity group1 = GroupEntity.builder()
+                                .name("Group C")
+                                .build();
+                GroupEntity group2 = GroupEntity.builder()
+                                .name("Group D")
+                                .build();
+                groupRepository.save(group1);
+                groupRepository.save(group2);
 
-        assertThat(groupRepository.findAll()).hasSize(2);
-    }
+                assertThat(groupRepository.findAll()).hasSize(2);
+        }
 }

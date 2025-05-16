@@ -17,12 +17,12 @@ class ConverterTests {
     private ConverterTest converter;
 
     @BeforeEach
-    public void setup() {
+    void setup() {
         converter = new ConverterTest();
     }
 
     @Test
-    public void testConvertToEntity() {
+    void testConvertToEntity() {
         DTOTest dto = new DTOTest("test");
         EntityTest entity = converter.convertToEntity(dto);
         assertNotNull(entity, "A entidade não deve ser nula");
@@ -30,7 +30,7 @@ class ConverterTests {
     }
 
     @Test
-    public void testConvertToEntityWithExistingEntity() {
+    void testConvertToEntityWithExistingEntity() {
         DTOTest dto = new DTOTest("updated");
         EntityTest entity = new EntityTest("original");
         EntityTest updatedEntity = converter.convertToEntity(dto, entity);
@@ -39,7 +39,7 @@ class ConverterTests {
     }
 
     @Test
-    public void testConvertToDto() {
+    void testConvertToDto() {
         EntityTest entity = new EntityTest("entityValue");
         DTOTest dto = converter.convertToDto(entity);
         assertNotNull(dto, "O DTO não deve ser nulo");
@@ -47,7 +47,7 @@ class ConverterTests {
     }
 
     @Test
-    public void testConvertToEntityList() {
+    void testConvertToEntityList() {
         List<DTOTest> dtos = Arrays.asList(new DTOTest("1"), new DTOTest("2"), new DTOTest("3"));
         List<EntityTest> entities = converter.convertToEntity(dtos);
         assertNotNull(entities, "A lista de entidades não deve ser nula");
@@ -58,7 +58,7 @@ class ConverterTests {
     }
 
     @Test
-    public void testConvertToDtoList() {
+    void testConvertToDtoList() {
         List<EntityTest> entities = Arrays.asList(new EntityTest("A"), new EntityTest("B"), new EntityTest("C"));
         List<DTOTest> dtos = converter.convertToDto(entities);
         assertNotNull(dtos, "A lista de DTOs não deve ser nula");

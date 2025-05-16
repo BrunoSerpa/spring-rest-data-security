@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @ActiveProfiles("test")
 class RoleTests {
     @Test
-    public void testUserGetAuthorities() {
+     void testUserGetAuthorities() {
         List<SimpleGrantedAuthority> authorities = Role.USER.getAuthorities();
         assertEquals(1, authorities.size(), "Role.USER deve ter somente 1 autoridade.");
 
@@ -23,7 +23,7 @@ class RoleTests {
     }
 
     @Test
-    public void testAdminGetAuthorities() {
+     void testAdminGetAuthorities() {
         List<SimpleGrantedAuthority> authorities = Role.ADMIN.getAuthorities();
         assertEquals(3, authorities.size(), "Role.ADMIN deve ter 3 autoridades (2 permissões + ROLE_ADMIN).");
 
@@ -40,7 +40,7 @@ class RoleTests {
     }
 
     @Test
-    public void testAdminGetRoleAuthorities() {
+     void testAdminGetRoleAuthorities() {
         List<SimpleGrantedAuthority> roleAuthorities = Role.ADMIN.getRoleAuthorities();
         assertEquals(4, roleAuthorities.size(), "Role.ADMIN deve ter 4 autoridades após getRoleAuthorities().");
 

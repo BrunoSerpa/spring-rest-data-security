@@ -19,7 +19,7 @@ import br.edu.fatecsjc.lgnspringapi.enums.TokenType;
 @ActiveProfiles("test")
 class TokenTests {
         @Test
-        public void testBuilderAndGetters() {
+        void testBuilderAndGetters() {
                 User user = User.builder()
                                 .id(1L)
                                 .firstName("Test User")
@@ -43,7 +43,7 @@ class TokenTests {
         }
 
         @Test
-        public void testNoArgsConstructorAndSetters() {
+        void testNoArgsConstructorAndSetters() {
                 Token token = new Token();
 
                 assertNull(token.getId());
@@ -74,7 +74,7 @@ class TokenTests {
         }
 
         @Test
-        public void testEqualsAndHashCode() {
+        void testEqualsAndHashCode() {
                 User user = User.builder()
                                 .id(1L)
                                 .firstName("Test User")
@@ -114,7 +114,7 @@ class TokenTests {
         }
 
         @Test
-        public void testToString() {
+        void testToString() {
                 User user = User.builder()
                                 .id(1L)
                                 .firstName("Test User")
@@ -136,7 +136,7 @@ class TokenTests {
         }
 
         @Test
-        public void testJsonSerialization() throws Exception {
+        void testJsonSerialization() throws Exception {
                 User user = User.builder()
                                 .id(1L)
                                 .firstName("Json User")
