@@ -26,8 +26,8 @@ public class DTOTest {
             return true;
         if (!(o instanceof DTOTest))
             return false;
-        DTOTest DTOTest = (DTOTest) o;
-        return Objects.equals(getValue(), DTOTest.getValue());
+        DTOTest dto = (DTOTest) o;
+        return Objects.equals(getValue(), dto.getValue());
     }
 
     @Override

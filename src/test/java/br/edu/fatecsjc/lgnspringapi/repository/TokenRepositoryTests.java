@@ -39,7 +39,7 @@ class TokenRepositoryTests {
                                 .expired(false)
                                 .user(user)
                                 .build();
-                token = tokenRepository.save(token);
+                tokenRepository.save(token);
 
                 Optional<Token> optionalToken = tokenRepository.findByTokenValue(tokenValue);
                 assertThat(optionalToken).isPresent();

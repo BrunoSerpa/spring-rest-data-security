@@ -24,7 +24,7 @@ class UserRepositoryTests {
                                 .email("alice@example.com")
                                 .password("password")
                                 .build();
-                user = userRepositoryTests.save(user);
+                userRepositoryTests.save(user);
 
                 Optional<User> foundUser = userRepositoryTests.findByEmail("alice@example.com");
                 assertThat(foundUser)

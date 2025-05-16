@@ -1,7 +1,6 @@
 package br.edu.fatecsjc.lgnspringapi.converter;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class ConverterTest implements Converter<EntityTest, DTOTest> {
     @Override
@@ -32,7 +31,7 @@ public class ConverterTest implements Converter<EntityTest, DTOTest> {
             return null;
         return dtos.stream()
                 .map(this::convertToEntity)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Override
@@ -41,6 +40,6 @@ public class ConverterTest implements Converter<EntityTest, DTOTest> {
             return null;
         return entities.stream()
                 .map(this::convertToDto)
-                .collect(Collectors.toList());
+                .toList();
     }
 }

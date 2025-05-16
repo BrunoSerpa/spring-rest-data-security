@@ -41,7 +41,6 @@ class MemberRepositoryTests {
                 memberRepository.save(member2);
 
                 List<Member> members = memberRepository.findByGroupId(savedGroup.getId());
-                assertThat(members).isNotNull();
                 assertThat(members).hasSize(2);
                 members.forEach(member -> assertThat(member.getGroup()).isEqualTo(savedGroup));
         }
