@@ -22,5 +22,5 @@ public class OrganizationDTO {
     private String paisSede;
     private AddressDTO endereco;
     private List<GroupDTO> grupos;
-    private List<Long> grupos_id;
+    private List<Long> gruposId;
 }

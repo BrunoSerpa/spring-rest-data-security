@@ -74,7 +74,7 @@ public class OrganizationService {
                 })
                 .toList();
 
-        List<GroupEntity> existingGroups = dto.getGrupos_id().stream()
+        List<GroupEntity> existingGroups = dto.getGruposId().stream()
                 .map(groupId -> {
                     GroupEntity group = groupRepository.findById(groupId)
                             .orElseThrow(() -> new IllegalArgumentException("Group not found with id: " + groupId));
@@ -115,7 +115,7 @@ public class OrganizationService {
                 })
                 .toList();
 
-        List<GroupEntity> existingGroups = dto.getGrupos_id().stream()
+        List<GroupEntity> existingGroups = dto.getGruposId().stream()
                 .map(groupId -> {
                     GroupEntity group = groupRepository.findById(groupId)
                             .orElseThrow(() -> new IllegalArgumentException("Group not found with id: " + groupId));
