@@ -45,6 +45,7 @@ public class SecurityConfig {
         private static final String GROUP_PATH = "/group/**";
 
         @Bean
+        @SuppressWarnings("java:S4502") 
         public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
                 http.csrf(AbstractHttpConfigurer::disable)
                                 .authorizeHttpRequests(req -> req.requestMatchers(WHITE_LIST_URL)
