@@ -26,7 +26,7 @@ class GroupConverterTests {
     private ModelMapper modelMapper;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         modelMapper = new ModelMapper();
         groupConverter = new GroupConverter(modelMapper);
     }
