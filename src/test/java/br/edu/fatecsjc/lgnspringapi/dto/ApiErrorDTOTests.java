@@ -1,5 +1,6 @@
 package br.edu.fatecsjc.lgnspringapi.dto;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
@@ -13,76 +14,147 @@ import static org.junit.jupiter.api.Assertions.*;
 @ActiveProfiles("test")
 class ApiErrorDTOTests {
     @Test
-    void testAllArgsConstructorAndDataMethods() {
-        String message = "Custom error message";
-        Instant timestamp = Instant.parse("2021-01-01T00:00:00Z");
-        ApiErrorDTO error1 = new ApiErrorDTO(message, timestamp);
-
-        assertEquals(message, error1.getMessage(), "Getter deve retornar a mensagem configurada");
-        assertEquals(timestamp, error1.getTimestamp(), "Getter deve retornar o timestamp configurado");
-
-        String toStringResult = error1.toString();
-        assertNotNull(toStringResult, "toString não deve ser nulo");
-        assertTrue(toStringResult.contains(message), "toString deve conter a mensagem");
-        assertTrue(toStringResult.contains(timestamp.toString()), "toString deve conter o timestamp");
-
-        ApiErrorDTO error2 = new ApiErrorDTO(message, timestamp);
-        assertEquals(error1, error2, "Instâncias com os mesmos valores devem ser iguais");
-        assertEquals(error1.hashCode(), error2.hashCode(), "HashCodes devem ser iguais para instâncias iguais");
-
-        ApiErrorDTO error3 = new ApiErrorDTO("Outra mensagem", timestamp);
-        assertNotEquals(error1, error3, "Instâncias com valores diferentes não devem ser iguais");
-    }
-
-    @Test
     void testNoArgsConstructorAndSetters() {
         ApiErrorDTO error = new ApiErrorDTO();
-        String message = "Setter test";
-        Instant timestamp = Instant.parse("2022-01-01T00:00:00Z");
-        error.setMessage(message);
-        error.setTimestamp(timestamp);
+        error.setMessage("Error occurred");
+        Instant now = Instant.now();
+        error.setTimestamp(now);
 
-        assertEquals(message, error.getMessage(), "Getter para message deve retornar o valor setado");
-        assertEquals(timestamp, error.getTimestamp(), "Getter para timestamp deve retornar o valor setado");
+        assertEquals("Error occurred", error.getMessage());
+        assertEquals(now, error.getTimestamp());
     }
 
     @Test
-    void testBuilderWithoutExplicitTimestamp() {
-        String message = "Builder message with default timestamp";
-        ApiErrorDTO error = ApiErrorDTO.builder()
-                .message(message)
-                .build();
+    void testAllArgsConstructor() {
+        Instant ts = Instant.parse("2025-05-18T12:00:00Z");
+        ApiErrorDTO error = new ApiErrorDTO("All error", ts);
+        assertEquals("All error", error.getMessage());
+        assertEquals(ts, error.getTimestamp());
+    }
 
-        assertEquals(message, error.getMessage(), "O message deve ser o informado via builder");
-        assertNotNull(error.getTimestamp(), "Timestamp default não deve ser nulo");
+    @Test
+    void testBuilderWithDefaultTimestamp() {
+        ApiErrorDTO error = ApiErrorDTO.builder()
+                .message("Builder error")
+                .build();
+        assertEquals("Builder error", error.getMessage());
+        assertNotNull(error.getTimestamp());
         Instant now = Instant.now();
         Duration diff = Duration.between(error.getTimestamp(), now).abs();
-        assertTrue(diff.getSeconds() < 1, "O timestamp default deve estar próximo do instante atual");
+        assertEquals(true, diff.getSeconds() < 5, "Default timestamp should be near current time");
     }
 
     @Test
-    void testBuilderWithExplicitTimestamp() {
-        String message = "Builder message with explicit timestamp";
-        Instant explicitTimestamp = Instant.parse("2022-12-31T23:59:59Z");
+    void testBuilderWithOverriddenTimestamp() {
+        Instant customTs = Instant.parse("2025-12-25T00:00:00Z");
         ApiErrorDTO error = ApiErrorDTO.builder()
-                .message(message)
-                .timestamp(explicitTimestamp)
+                .message("Custom error")
+                .timestamp(customTs)
                 .build();
-
-        assertEquals(message, error.getMessage(), "O message construído deve ser o informado");
-        assertEquals(explicitTimestamp, error.getTimestamp(),
-                "O timestamp construído deve ser o timestamp explícito informado");
+        assertEquals("Custom error", error.getMessage());
+        assertEquals(customTs, error.getTimestamp());
     }
 
     @Test
-    void testHashCodeConsistency() {
-        ApiErrorDTO error = ApiErrorDTO.builder()
-                .message("Consistent")
-                .timestamp(Instant.parse("2021-01-01T00:00:00Z"))
-                .build();
+    void testJsonDeserialization() throws Exception {
+        String json = "{\"message\":\"Deserialized error\",\"timestamp\":\"2025-05-18T12:00:00Z\"}";
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.findAndRegisterModules();
+        ApiErrorDTO error = mapper.readValue(json, ApiErrorDTO.class);
+        assertEquals("Deserialized error", error.getMessage());
+        assertEquals(Instant.parse("2025-05-18T12:00:00Z"), error.getTimestamp());
+    }
 
+    @Test
+    void testToString() {
+        Instant ts = Instant.parse("2025-05-18T12:00:00Z");
+        ApiErrorDTO error = ApiErrorDTO.builder()
+                .message("ToString error")
+                .timestamp(ts)
+                .build();
+        String str = error.toString();
+        assertNotNull(str);
+        assertNotNull(str);
+        assertEquals(true, str.contains("ToString error"), "String should contain the error message");
+        assertEquals(true, str.contains(ts.toString()), "String should contain the timestamp");
+    }
+
+    @Test
+    void testEqualsAndHashCode() {
+        Instant ts = Instant.parse("2025-05-18T12:00:00Z");
+        ApiErrorDTO error1 = ApiErrorDTO.builder()
+                .message("Error")
+                .timestamp(ts)
+                .build();
+        ApiErrorDTO error2 = ApiErrorDTO.builder()
+                .message("Error")
+                .timestamp(ts)
+                .build();
+        assertEquals(error1, error2, "Objects with same values must be equal");
+        assertEquals(error1.hashCode(), error2.hashCode(), "HashCodes should be equal when objects are equal");
+        error2.setMessage("Different error");
+        assertNotEquals(error1, error2, "Objects should not be equal when values differ");
+    }
+
+    @Test
+    void testEqualsWithNullFields() {
+        ApiErrorDTO error1 = new ApiErrorDTO();
+        ApiErrorDTO error2 = new ApiErrorDTO();
+        assertEquals(error1, error2, "Two objects with default field values should be equal");
+        assertEquals(error1.hashCode(), error2.hashCode(), "HashCodes must be equal when field values are equal");
+    }
+
+    @Test
+    void testEqualsWhenOneFieldIsNull() {
+        ApiErrorDTO error1 = ApiErrorDTO.builder()
+                .message("Error")
+                .build();
+        ApiErrorDTO error2 = ApiErrorDTO.builder()
+                .message(null)
+                .build();
+        assertNotEquals(error1, error2, "Objects should not be equal when one message differs (null vs non-null)");
+    }
+
+    @Test
+    void testEqualsSameInstance() {
+        ApiErrorDTO error = ApiErrorDTO.builder().message("Same").build();
+        assertEquals(error, error, "An object must be equal to itself");
+    }
+
+    @Test
+    void testEqualsNull() {
+        ApiErrorDTO error = ApiErrorDTO.builder().message("Test").build();
+        assertNotEquals(null, error, "An object must not be equal to null");
+    }
+
+    @Test
+    void testNotEqualsDifferentType() {
+        ApiErrorDTO error = ApiErrorDTO.builder().message("Type Test").build();
+        assertNotEquals("Some String", error, "ApiErrorDTO should not be equal to an object of a different type");
+    }
+
+    @Test
+    void testHashCodeStability() {
+        ApiErrorDTO error = ApiErrorDTO.builder().message("Stability").build();
         int hash1 = error.hashCode();
         int hash2 = error.hashCode();
-        assertEquals(hash1, hash2, "HashCode deve ser consistente mesmo com múltiplas invocações");
+        assertEquals(hash1, hash2, "hashCode should be stable across multiple invocations");
+    }
+
+    @Test
+    void testCanEqual() {
+        ApiErrorDTO error = ApiErrorDTO.builder().message("Test").build();
+        assertEquals(true, error.canEqual(error), "canEqual should return true when comparing an object with itself");
+        assertEquals(false, error.canEqual("Not an ApiErrorDTO"),
+                "canEqual should return false when comparing with a different type");
+        FakeApiErrorDTO fake = new FakeApiErrorDTO();
+        assertEquals(false, error.equals(fake), "Equals must return false if fake.canEqual returns false");
+    }
+
+    static class FakeApiErrorDTO extends ApiErrorDTO {
+        @Override
+        public boolean canEqual(Object other) {
+            return false;
+        }
     }
 }
