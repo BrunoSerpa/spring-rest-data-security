@@ -3,7 +3,7 @@ services:
 
   maria-db:
     container_name: maria-db
-    image: mariadb
+    image: mariadb:10.11
     restart: always
     environment:
       MARIADB_ROOT_PASSWORD: root
@@ -12,12 +12,13 @@ services:
     ports:
       - 3306:3306
     volumes:
-      -  mariadb_volume:/var/lib/mysql
+      - mariadb_volume:/var/lib/mysql
     networks:
       - api-network
 
 volumes:
   mariadb_volume:
+
 
 networks:
   api-network:
