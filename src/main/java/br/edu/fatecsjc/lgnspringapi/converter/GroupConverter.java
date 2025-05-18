@@ -5,7 +5,6 @@ import br.edu.fatecsjc.lgnspringapi.entity.GroupEntity;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.Provider;
 import org.modelmapper.TypeMap;
-import org.modelmapper.TypeToken;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -13,28 +12,21 @@ import java.util.List;
 @Component
 public class GroupConverter implements Converter<GroupEntity, GroupDTO> {
     private final ModelMapper modelMapper;
+    private final TypeMap<GroupDTO, GroupEntity> propertyMapperDto;
 
     public GroupConverter(ModelMapper modelMapper) {
         this.modelMapper = modelMapper;
+        this.propertyMapperDto = this.modelMapper.createTypeMap(GroupDTO.class, GroupEntity.class);
+        this.propertyMapperDto.addMappings(mapper -> mapper.skip(GroupEntity::setId));
     }
-
-    private TypeMap<GroupDTO, GroupEntity> propertyMapperDto;
 
     @Override
     public GroupEntity convertToEntity(GroupDTO dto) {
-        if (propertyMapperDto == null) {
-            propertyMapperDto = modelMapper.createTypeMap(GroupDTO.class, GroupEntity.class);
-            propertyMapperDto.addMappings(mapper -> mapper.skip(GroupEntity::setId));
-        }
         return modelMapper.map(dto, GroupEntity.class);
     }
 
     @Override
     public GroupEntity convertToEntity(GroupDTO dto, GroupEntity entity) {
-        if (propertyMapperDto == null) {
-            propertyMapperDto = modelMapper.createTypeMap(GroupDTO.class, GroupEntity.class);
-            propertyMapperDto.addMappings(mapper -> mapper.skip(GroupEntity::setId));
-        }
         Provider<GroupEntity> groupProvider = p -> entity;
         propertyMapperDto.setProvider(groupProvider);
         return modelMapper.map(dto, GroupEntity.class);
@@ -47,12 +39,15 @@ public class GroupConverter implements Converter<GroupEntity, GroupDTO> {
 
     @Override
     public List<GroupEntity> convertToEntity(List<GroupDTO> dtos) {
-        return modelMapper.map(dtos, new TypeToken<List<GroupEntity>>() {}.getType());
+        if (dtos == null)
+            return null;
+        return dtos.stream().map(this::convertToEntity).toList();
     }
 
     @Override
     public List<GroupDTO> convertToDto(List<GroupEntity> entities) {
-        return modelMapper.map(entities, new TypeToken<List<GroupDTO>>() {
-        }.getType());
+        if (entities == null)
+            return null;
+        return entities.stream().map(this::convertToDto).toList();
     }
 }
