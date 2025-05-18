@@ -26,13 +26,13 @@ class GroupConverterTests {
     private ModelMapper modelMapper;
 
     @BeforeEach
-    public void setUp() {
+    private void setUp() {
         modelMapper = new ModelMapper();
         groupConverter = new GroupConverter(modelMapper);
     }
 
     @Test
-    public void testConvertToEntity() {
+    void testConvertToEntity() {
         GroupDTO dto = new GroupDTO();
         dto.setId(123L);
         dto.setName("Test Group");
@@ -44,7 +44,7 @@ class GroupConverterTests {
     }
 
     @Test
-    public void testConvertToEntityWithExistingEntity() {
+    void testConvertToEntityWithExistingEntity() {
         GroupDTO dto = new GroupDTO();
         dto.setName("Updated Group");
 
@@ -60,7 +60,7 @@ class GroupConverterTests {
     }
 
     @Test
-    public void testConvertToDto() {
+    void testConvertToDto() {
         GroupEntity entity = new GroupEntity();
         entity.setId(111L);
         entity.setName("Entity Group");
@@ -73,7 +73,7 @@ class GroupConverterTests {
     }
 
     @Test
-    public void testConvertToEntityListEmpty() {
+    void testConvertToEntityListEmpty() {
         List<GroupDTO> dtos = Collections.emptyList();
         List<GroupEntity> entities = groupConverter.convertToEntity(dtos);
 
@@ -82,7 +82,7 @@ class GroupConverterTests {
     }
 
     @Test
-    public void testConvertToEntityListNonEmpty() {
+    void testConvertToEntityListNonEmpty() {
         GroupDTO dto1 = new GroupDTO();
         dto1.setName("Group 1");
         GroupDTO dto2 = new GroupDTO();
@@ -96,7 +96,7 @@ class GroupConverterTests {
     }
 
     @Test
-    public void testConvertToDtoList() {
+    void testConvertToDtoList() {
         GroupEntity entity1 = new GroupEntity();
         entity1.setId(1L);
         entity1.setName("Entity 1");
