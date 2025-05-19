@@ -28,7 +28,7 @@ class MemberConverterTests {
     @Test
     @DisplayName("Should convert MemberDTO to Member entity")
     void testConvertToEntity() {
-        MemberDTO dto = new MemberDTO(1L, "Alice", 25);
+        MemberDTO dto = new MemberDTO(1L, "Alice", 25, null);
         Member entity = memberConverter.convertToEntity(dto);
 
         assertNotNull(entity);
@@ -57,8 +57,8 @@ class MemberConverterTests {
     @Test
     @DisplayName("Should convert list of MemberDTOs to list of Member entities")
     void testConvertToEntityList() {
-        MemberDTO dto1 = new MemberDTO(1L, "Alice", 25);
-        MemberDTO dto2 = new MemberDTO(2L, "Charlie", 40);
+        MemberDTO dto1 = new MemberDTO(1L, "Alice", 25, null);
+        MemberDTO dto2 = new MemberDTO(2L, "Charlie", 40, null);
 
         List<Member> entities = memberConverter.convertToEntity(List.of(dto1, dto2));
 
@@ -93,7 +93,7 @@ class MemberConverterTests {
                 .age(45)
                 .build();
 
-        MemberDTO updatedDTO = new MemberDTO(99L, "Updated Name", 50);
+        MemberDTO updatedDTO = new MemberDTO(99L, "Updated Name", 50, null);
         Member updatedEntity = memberConverter.convertToEntity(updatedDTO, existingEntity);
 
         assertNotNull(updatedEntity);

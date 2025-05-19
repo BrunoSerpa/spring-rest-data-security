@@ -25,7 +25,7 @@ class MemberDTOTests {
 
     @Test
     void testAllArgsConstructor() {
-        MemberDTO member = new MemberDTO(2L, "Jane Doe", 25);
+        MemberDTO member = new MemberDTO(2L, "Jane Doe", 25, null);
         assertEquals(2L, member.getId());
         assertEquals("Jane Doe", member.getName());
         assertEquals(25, member.getAge());
