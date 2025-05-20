@@ -91,49 +91,10 @@ public class MarathonService {
         marathonRepository.saveAll(marathonsToSave);
 
         List<Marathon> allMarathons = marathonRepository.findByMemberId(memberId);
+
         MemberDTO memberDTO = memberConverter.convertToDto(member);
         memberDTO.setMarathons(marathonConverter.convertToDto(allMarathons));
         return memberDTO;
-    }
-
-    @Transactional
-    public MemberDTO updateMarathons(Long id, List<Marathon> marathons) {
-        Member entity = memberRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Member not found"));
-        
-        marathonRepository.deleteByMember(entity);
-        List<Marathon> marathonsToSave = marathons.stream()
-                .map(marathon -> {
-                    marathon.setMember(entity);
-                    return marathon;
-                })
-                .toList();
-
-        marathonRepository.saveAll(marathonsToSave);
-
-        MemberDTO returnedDTO = memberConverter.convertToDto(entity);
-        returnedDTO.setMarathons(marathonConverter.convertToDto(marathonsToSave));
-        return returnedDTO;
-    }
-
-    @Transactional
-    public MemberDTO addMarathons(Long id, List<Marathon> marathons) {
-        Member entity = memberRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Member not found"));
-        
-        List<Marathon> marathonsToSave = marathons.stream()
-                .map(marathon -> {
-                    marathon.setMember(entity);
-                    return marathon;
-                })
-                .toList();
-
-        marathonRepository.saveAll(marathonsToSave);
-
-        List<Marathon> allMarathons = marathonRepository.findByMemberId(id);
-        MemberDTO returnedDTO = memberConverter.convertToDto(entity);
-        returnedDTO.setMarathons(marathonConverter.convertToDto(allMarathons));
-        return returnedDTO;
     }
 
     @Transactional
