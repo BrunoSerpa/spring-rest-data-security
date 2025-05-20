@@ -1,6 +1,7 @@
 package br.edu.fatecsjc.lgnspringapi.resource;
 
 import br.edu.fatecsjc.lgnspringapi.dto.MemberDTO;
+import br.edu.fatecsjc.lgnspringapi.dto.MarathonDTO;
 import br.edu.fatecsjc.lgnspringapi.service.MarathonService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -26,7 +27,7 @@ public class MarathonResource {
         }
 
         @GetMapping
-        @Operation(description = "Get all members and marathons", responses = {
+        @Operation(description = "Get all members and their marathons", responses = {
                         @ApiResponse(description = "Success", responseCode = "200"),
                         @ApiResponse(description = "Unauthorized/Invalid token", responseCode = "403"),
                         @ApiResponse(description = "Unknown error", responseCode = "400"),
@@ -36,7 +37,7 @@ public class MarathonResource {
         }
 
         @GetMapping("/{id}")
-        @Operation(description = "Get a member and marathons by member ID", responses = {
+        @Operation(description = "Get a member and their marathons by member ID", responses = {
                         @ApiResponse(description = "Success", responseCode = "200"),
                         @ApiResponse(description = "Unauthorized/Invalid token", responseCode = "403"),
                         @ApiResponse(description = "Unknown error", responseCode = "400"),
@@ -45,38 +46,37 @@ public class MarathonResource {
                 return ResponseEntity.ok(marathonService.findById(id));
         }
 
-        @PutMapping("/{id}")
+        @PutMapping("/{id}/marathons")
         @PreAuthorize("hasRole('ADMIN')")
-        @Operation(description = "Update a member and marathons by member ID", responses = {
-                        @ApiResponse(description = "Success", responseCode = "201"),
+        @Operation(description = "Update all marathons for a member", responses = {
+                        @ApiResponse(description = "Success", responseCode = "200"),
                         @ApiResponse(description = "Unauthorized/Invalid token", responseCode = "403"),
                         @ApiResponse(description = "Unknown error", responseCode = "400"),
         })
-        public ResponseEntity<MemberDTO> update(@PathVariable Long id, @RequestBody MemberDTO body) {
-                return ResponseEntity.status(HttpStatusCode.valueOf(201))
-                                .body(marathonService.save(id, body));
+        public ResponseEntity<MemberDTO> updateMarathons(@PathVariable Long id, @RequestBody List<MarathonDTO> marathons) {
+                return ResponseEntity.ok(marathonService.updateMarathons(id, marathons));
         }
 
-        @PostMapping
+        @PostMapping("/{id}/marathons")
         @PreAuthorize("hasRole('ADMIN')")
-        @Operation(description = "Register a new member and marathons", responses = {
+        @Operation(description = "Add new marathons to a member", responses = {
                         @ApiResponse(description = "Success", responseCode = "201"),
                         @ApiResponse(description = "Unauthorized/Invalid token", responseCode = "403"),
                         @ApiResponse(description = "Unknown error", responseCode = "400"),
         })
-        public ResponseEntity<MemberDTO> register(@RequestBody MemberDTO body) {
+        public ResponseEntity<MemberDTO> addMarathons(@PathVariable Long id, @RequestBody List<MarathonDTO> marathons) {
                 return ResponseEntity.status(HttpStatusCode.valueOf(201))
-                                .body(marathonService.save(body));
+                                .body(marathonService.addMarathons(id, marathons));
         }
 
         @DeleteMapping("/{id}")
         @PreAuthorize("hasRole('ADMIN')")
-        @Operation(description = "Delete a member and marathons by member ID", responses = {
+        @Operation(description = "Delete a member and all their marathons", responses = {
                         @ApiResponse(description = "Success", responseCode = "204"),
                         @ApiResponse(description = "Unauthorized/Invalid token", responseCode = "403"),
                         @ApiResponse(description = "Unknown error", responseCode = "400"),
         })
-        public ResponseEntity<Void> update(@PathVariable Long id) {
+        public ResponseEntity<Void> deleteMember(@PathVariable Long id) {
                 marathonService.delete(id);
                 return ResponseEntity.noContent().build();
         }
