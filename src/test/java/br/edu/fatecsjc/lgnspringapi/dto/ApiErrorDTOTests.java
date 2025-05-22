@@ -98,9 +98,10 @@ class ApiErrorDTOTests {
 
     @Test
     void testEqualsWithNullFields() {
-        ApiErrorDTO error1 = new ApiErrorDTO();
-        ApiErrorDTO error2 = new ApiErrorDTO();
-        assertEquals(error1, error2, "Two objects with default field values should be equal");
+        Instant ts = Instant.now();
+        ApiErrorDTO error1 = ApiErrorDTO.builder().message(null).timestamp(ts).build();
+        ApiErrorDTO error2 = ApiErrorDTO.builder().message(null).timestamp(ts).build();
+        assertEquals(error1, error2, "Two objects with the same field values should be equal");
         assertEquals(error1.hashCode(), error2.hashCode(), "HashCodes must be equal when field values are equal");
     }
 
