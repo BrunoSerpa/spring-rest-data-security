@@ -12,6 +12,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 
 class GenericResourceExceptionHandlerTests {
+        @SuppressWarnings("null")
         @Test
         void testCatchExceptionReturningBadRequest() {
                 GenericResourceExceptionHandler handler = new GenericResourceExceptionHandler();
