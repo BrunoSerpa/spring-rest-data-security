@@ -20,14 +20,15 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class OrganizationService {
+    private static final String ORGANIZATION_NOT_FOUND = "Organization not found";
+    private static final String GROUP_NOT_FOUND_AFTER_SAVE = "Group not found after save";
+    private static final String GROUP_NOT_FOUND_WITH_ID = "Group not found with id: ";
     private final OrganizationRepository organizationRepository;
     private final GroupRepository groupRepository;
     private final AddressRepository addressRepository;
-
     private final OrganizationConverter organizationConverter;
     private final GroupConverter groupConverter;
     private final AddressConverter addressConverter;
-
     private final GroupService groupService;
 
     public List<OrganizationDTO> findAll() {
@@ -44,55 +45,44 @@ public class OrganizationService {
 
     public OrganizationDTO findById(Long id) {
         Organization organization = organizationRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Organization not found"));
-
+                .orElseThrow(() -> new IllegalArgumentException(ORGANIZATION_NOT_FOUND));
         OrganizationDTO organizationDTO = organizationConverter.convertToDto(organization);
         organizationDTO.setEndereco(addressConverter.convertToDto(addressRepository.findByOrganizationId(id)));
         organizationDTO.setGrupos(groupConverter.convertToDto(groupRepository.findByOrganizationId(id)));
-
         return organizationDTO;
     }
 
     @Transactional
     public OrganizationDTO save(Long id, OrganizationDTO dto) {
         Organization entity = organizationRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Organization not found"));
-
+                .orElseThrow(() -> new IllegalArgumentException(ORGANIZATION_NOT_FOUND));
         groupRepository.nullifyOrganizationId(id);
-
         Organization updatedOrganization = organizationConverter.convertToEntity(dto, entity);
         Organization savedOrganization = organizationRepository.save(updatedOrganization);
         List<GroupEntity> newGroups = dto.getGrupos().stream()
                 .map(groupDTO -> {
-                    // Salvar grupo usando GroupService que já lida com membros
                     GroupDTO savedGroup = groupService.save(groupDTO);
-                    // Buscar entidade salva e atualizar organização
                     GroupEntity groupEntity = groupRepository.findById(savedGroup.getId())
-                            .orElseThrow(() -> new IllegalArgumentException("Group not found after save"));
+                            .orElseThrow(() -> new IllegalArgumentException(GROUP_NOT_FOUND_AFTER_SAVE));
                     groupEntity.setOrganization(savedOrganization);
                     return groupEntity;
                 })
                 .toList();
-
         List<GroupEntity> existingGroups = dto.getGruposId().stream()
                 .map(groupId -> {
                     GroupEntity group = groupRepository.findById(groupId)
-                            .orElseThrow(() -> new IllegalArgumentException("Group not found with id: " + groupId));
+                            .orElseThrow(() -> new IllegalArgumentException(GROUP_NOT_FOUND_WITH_ID + groupId));
                     group.setOrganization(savedOrganization);
                     return group;
                 })
                 .toList();
-
         List<GroupEntity> allGroups = new java.util.ArrayList<>();
         allGroups.addAll(newGroups);
         allGroups.addAll(existingGroups);
         groupRepository.saveAll(allGroups);
-
         Address address = addressConverter.convertToEntity(dto.getEndereco());
         address.setOrganization(savedOrganization);
-
         addressRepository.save(address);
-
         OrganizationDTO returnedDTO = organizationConverter.convertToDto(savedOrganization);
         returnedDTO.setEndereco(dto.getEndereco());
         returnedDTO.setGrupos(groupConverter.convertToDto(allGroups));
@@ -102,38 +92,30 @@ public class OrganizationService {
     public OrganizationDTO save(OrganizationDTO dto) {
         Organization organizationToSave = organizationConverter.convertToEntity(dto);
         Organization savedOrganization = organizationRepository.save(organizationToSave);
-
         List<GroupEntity> newGroups = dto.getGrupos().stream()
                 .map(groupDTO -> {
-                    // Salvar grupo usando GroupService que já lida com membros
                     GroupDTO savedGroup = groupService.save(groupDTO);
-                    // Buscar entidade salva e atualizar organização
                     GroupEntity groupEntity = groupRepository.findById(savedGroup.getId())
-                            .orElseThrow(() -> new IllegalArgumentException("Group not found after save"));
+                            .orElseThrow(() -> new IllegalArgumentException(GROUP_NOT_FOUND_AFTER_SAVE));
                     groupEntity.setOrganization(savedOrganization);
                     return groupEntity;
                 })
                 .toList();
-
         List<GroupEntity> existingGroups = dto.getGruposId().stream()
                 .map(groupId -> {
                     GroupEntity group = groupRepository.findById(groupId)
-                            .orElseThrow(() -> new IllegalArgumentException("Group not found with id: " + groupId));
+                            .orElseThrow(() -> new IllegalArgumentException(GROUP_NOT_FOUND_WITH_ID + groupId));
                     group.setOrganization(savedOrganization);
                     return group;
                 })
                 .toList();
-
         List<GroupEntity> allGroups = new java.util.ArrayList<>();
         allGroups.addAll(newGroups);
         allGroups.addAll(existingGroups);
         groupRepository.saveAll(allGroups);
-
         Address address = addressConverter.convertToEntity(dto.getEndereco());
         address.setOrganization(savedOrganization);
-
         addressRepository.save(address);
-
         OrganizationDTO returnedDTO = organizationConverter.convertToDto(savedOrganization);
         returnedDTO.setEndereco(dto.getEndereco());
         returnedDTO.setGrupos(groupConverter.convertToDto(allGroups));
@@ -144,14 +126,11 @@ public class OrganizationService {
     public void deleteById(Long id) {
         organizationRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Organização com id " + id + " não encontrada"));
-
         groupRepository.nullifyOrganizationId(id);
-
         Address address = addressRepository.findByOrganizationId(id);
         if (address != null) {
             addressRepository.delete(address);
         }
-
         organizationRepository.deleteById(id);
     }
 }
