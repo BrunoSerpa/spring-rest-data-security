@@ -21,6 +21,9 @@ class LgnSpringApiApplicationTests {
 
     @Test
     void mainMethodRunsWithoutErrors() {
-        assertDoesNotThrow(() -> LgnSpringApiApplication.main(new String[] {}));
+        assertDoesNotThrow(() -> {
+            System.setProperty("spring.profiles.active", "test");
+            LgnSpringApiApplication.main(new String[] {});
+        });
     }
 }
